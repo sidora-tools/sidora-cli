@@ -1,6 +1,3 @@
-library(sidora.core)
-library(tidyverse)
-
 creds <- readLines(".credentials")
 con <- DBI::dbConnect(
   RMySQL::MySQL(), 
@@ -12,12 +9,14 @@ con <- DBI::dbConnect(
 
 pr = "SouthAfrica_Sutherland"
 
-site_con <- get_con("TAB_Site", con) %>% filter(Projects==pr)
-ind_con <- get_con("TAB_Individual", con) %>% filter(Projects==pr)
-sample_con <- get_con("TAB_Sample", con) %>% filter(Projects==pr)
+`%>%` <- dplyr::`%>%`
+tableNames <- c("TAB_Site", "TAB_Individual", "TAB_Sample", "TAB_Extract", "TAB_Library")
+table_cons <- lapply(tableNames,
+                     function(n) {
+                       sidora.core::get_con(n, con) %>% dplyr::filter(Projects==pr)
+                     }
+                    )
+names(table_cons) <- tableNames
 
-con_list = list("TAB_Site"=site_con, "TAB_Individual"=ind_con, "TAB_Sample"=sample_con)
-
-p <- join_df_list(con_list) %>% as_tibble()
-
+p <- sidora.core::join_df_list(table_cons) %>% dplyr::as_tibble()
 print(p)
