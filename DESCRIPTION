@@ -1,0 +1,15 @@
+Package: sidora.cli
+Title: Sidora Command Line Tools
+Version: 0.1
+Authors@R: person("Stephan", "Schiffels", email = "schiffels@shh.mpg.de", role="cre")
+Description: This package implements a command line interface for
+    accessing the MPI-SHH Pandora database. It also serves as a
+    report generator for PDFs or R Notebooks summarising a project status.
+Depends: R (>= 3.1.0)
+License: MIT
+Imports:
+  dplyr,
+  sidora.core,
+  magrittr
+Remotes: sidora-tools/sidora.core
+RoxygenNote: 7.0.2
