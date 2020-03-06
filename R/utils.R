@@ -6,9 +6,13 @@ NULL
 #'   listing host, user and password, respectively
 #' @return The Pandora DB connection object.
 get_pandora_connection <- function (cred_file = ".credentials") {
+  if(!file.exists(cred_file))
+    stop(paste("Can't find .credentials file. Please create one ",
+               "containing three lines: the Database Host, the username, ",
+               "the password."))
   creds <- readLines(cred_file)
   con <- DBI::dbConnect(
-    RMySQL::MySQL(), 
+    RMariaDB::MariaDB(), 
     host = creds[1],
     user = creds[2],
     password = creds[3],

@@ -10,6 +10,10 @@ License: MIT
 Imports:
   dplyr,
   sidora.core,
-  magrittr
+  magrittr,
+  RMariaDB,
+  DBI,
+  knitr
 Remotes: sidora-tools/sidora.core
 RoxygenNote: 7.0.2
+Encoding: UTF-8
