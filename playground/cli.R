@@ -26,7 +26,8 @@ p <- argparser::arg_parser(
 )
 
 # add command line arguments
-p <- argparser::add_argument(p, "--credentials", help = "path to the credentials file", type = "character", default = ".credentials")
+p <- argparser::add_argument(p, "--credentials", help = "path to the credentials file", type = "character", default = ".credentials", short = "-c")
+p <- argparser::add_argument(p, "--cache_dir", help = "path to table cache directory", type = "character", default = "/tmp/sidora.cli_table_cache", short = "-d")
 p <- argparser::add_argument(p, "--tag", help = "...", default = "Deep_Evolution")
 
 # parse the command line arguments
@@ -34,7 +35,7 @@ argv <- argparser::parse_args(p)
 
 # write cli args to individual variablels 
 cred_file <- argv$credentials
-pr <- argv$pr
+cache_dir <- argv$cache_dir
 tag <- argv$tag
 
 #### connect to PANDORA ####
@@ -60,7 +61,7 @@ con <- DBI::dbConnect(
 make_joint_table <- function(con) {
   table_names <- c("TAB_Site", "TAB_Individual", "TAB_Sample", "TAB_Extract", "TAB_Library",
                    "TAB_Capture", "TAB_Sequencing")#, "TAB_Raw_Data", "TAB_Analysis", "TAB_Analysis_Result_String")
-  tables <- sidora.core::get_df_list(con, tab = table_names)
+  tables <- sidora.core::get_df_list(con, tab = table_names, cache_dir = cache_dir)
   return(sidora.core::join_pandora_tables(tables))
 }
 
