@@ -2,10 +2,17 @@
 
 #### install necessary R packages if not available yet ####
 
-if(!require("magrittr")) { install.packages("magrittr") }
-if(!require("argparser")) { install.packages("argparser") }
-if(!require("devtools")) { install.packages("devtools") }
-if(!require("sidora.core")) { devtools::install_github("sidora-tools/sidora.core") }
+necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core")
+missing_packages <- necessary_packages[!(necessary_packages %in% rownames(installed.packages()))]
+
+if (length(missing_packages) > 0) {
+  cat("There are R packages missing (", paste(missing_packages, collapse = ", "), "). Do you want to install them? [y/n]: ") 
+  user_input_install <- readLines(con = "stdin", 1)
+  if (tolower(user_input_install) == "y") {
+    install.packages(missing_packages[missing_packages != "sidora.core"])
+    if(!require("sidora.core")) { devtools::install_github("sidora-tools/sidora.core") }
+  }
+}
 
 library(magrittr)
 
