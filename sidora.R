@@ -2,7 +2,7 @@
 
 #### install necessary R packages if not available yet ####
 
-necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core", "tibble", "txtplot")
+necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core", "tibble", "txtplot", "dplyr")
 missing_packages <- necessary_packages[!(necessary_packages %in% rownames(installed.packages()))]
 
 if (length(missing_packages) > 0) {
