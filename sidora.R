@@ -26,12 +26,34 @@ p <- argparser::arg_parser(
 )
 
 # add command line arguments
-p <- argparser::add_argument(p, "--credentials", help = "path to the credentials file", type = "character", default = ".credentials", short = "-c")
-p <- argparser::add_argument(p, "--cache_dir", help = "path to table cache directory", type = "character", default = "/tmp/sidora.cli_table_cache", short = "-d")
-p <- argparser::add_argument(p, "--tag", help = "...", default = "Deep_Evolution")
+p <- argparser::add_argument(
+  p, "tool", 
+  help = "select sidora.cli function", 
+  type = "character",
+  flag = TRUE
+)
+p <- argparser::add_argument(
+  p, "--credentials", short = "-c", 
+  help = "path to the credentials file", 
+  type = "character", default = ".credentials"
+)
+p <- argparser::add_argument(
+  p, "--cache_dir", short = "-d", 
+  help = "path to table cache directory", 
+  type = "character", default = "/tmp/sidora.cli_table_cache"
+)
+p <- argparser::add_argument(
+  p, "--tag", help = "...", 
+  default = "Deep_Evolution"
+)
 
 # parse the command line arguments
 argv <- argparser::parse_args(p)
+
+# stop if tool not selected
+if (!argv$tool) {
+  stop("Please select a sidora.cli tool.")
+}
 
 # write cli args to individual variablels 
 cred_file <- argv$credentials
