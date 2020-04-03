@@ -9,7 +9,7 @@ pandora_data <- sidora.core::join_pandora_tables(tables)
 
 #### apply filter operations ####
 
-pandora_data_filtered <- sidora.core::filter_pr_tag(pandora_data, col = "Tags.Individual", ins = tag) 
+pandora_data_filtered <- sidora.core::filter_pr_tag(pandora_data, col = "Tags.Individual", ins = tags) 
 
 #### prepare progress table (or do other stuff) ####
 

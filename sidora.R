@@ -2,7 +2,7 @@
 
 #### install necessary R packages if not available yet ####
 
-necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core")
+necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core", "tibble", "txtplot")
 missing_packages <- necessary_packages[!(necessary_packages %in% rownames(installed.packages()))]
 
 if (length(missing_packages) > 0) {
@@ -42,8 +42,12 @@ p <- argparser::add_argument(
   type = "character", default = "/tmp/sidora.cli_table_cache"
 )
 p <- argparser::add_argument(
-  p, "--tag", help = "...", 
-  default = "Deep_Evolution"
+  p, "--projects", help = "selected projects",
+  nargs = Inf
+)
+p <- argparser::add_argument(
+  p, "--tags", help = "selected tags",
+  nargs = Inf
 )
 
 # parse the command line arguments
@@ -53,10 +57,11 @@ argv <- argparser::parse_args(p)
 module <-argv$module
 cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
-tag <- argv$tag
+projects <- argv$projects
+tags <- argv$tags
 
 # check if module is selected
-if (!(module %in% c("progress_table"))) {
+if (!(module %in% c("progress_table", "sites"))) {
   stop("Unknown module or no module selected (-m)")
 }
 
@@ -68,5 +73,6 @@ con <- sidora.core::get_pandora_connection()
 
 if (module == "progress_table") {
   source("progress_table.R", local = T, print.eval = T)
+} else if (module == "sites") {
+  source("sites.R", local = T, print.eval = T)
 }
-
