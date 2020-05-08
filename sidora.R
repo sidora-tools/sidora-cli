@@ -58,7 +58,7 @@ argv <- argparser::parse_args(p)
 # write cli args to individual variables
 module <- argv$module
 entity_type <- argv$entity_type
-entity_id <- argv$entity_id
+entity_id <- unlist(strsplit(argv$entity_id, ","))
 
 cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
@@ -96,7 +96,7 @@ if (module == "projects") {
   } else if (entity_type == "tag") {
     cat("Not implemented\n")
   } else if (entity_type == "site") {
-    cat("Not implemented\n")
+    source("list_site.R", local = T, print.eval = T)
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
