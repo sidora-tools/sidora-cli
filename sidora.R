@@ -25,12 +25,37 @@ p <- argparser::arg_parser(
   hide.opts = T
 )
 
-# add command line arguments
+# how-flags
 p <- argparser::add_argument(
-  p, "--module", short = "-m", 
-  help = "sidora.cli module", 
-  type = "character"
+  p, "--view", short = "-v", 
+  help = "return information on an individual object", 
+  flag = T
 )
+p <- argparser::add_argument(
+  p, "--list", short = "-l", 
+  help = "return a list with information for multiple objects", 
+  flag = T
+)
+
+# what-arguments
+p <- argparser::add_argument(
+  p, "--projects", help = "selected projects",
+  nargs = Inf
+)
+p <- argparser::add_argument(
+  p, "--tags", help = "selected tags",
+  nargs = Inf
+)
+p <- argparser::add_argument(
+  p, "--sites", help = "selected tags",
+  nargs = Inf
+)
+p <- argparser::add_argument(
+  p, "--individuals", help = "selected tags",
+  nargs = Inf
+)
+
+# technical arguments
 p <- argparser::add_argument(
   p, "--credentials", short = "-c", 
   help = "path to the credentials file", 
@@ -41,28 +66,25 @@ p <- argparser::add_argument(
   help = "path to table cache directory", 
   type = "character", default = "/tmp/sidora.cli_table_cache"
 )
-p <- argparser::add_argument(
-  p, "--projects", help = "selected projects",
-  nargs = Inf
-)
-p <- argparser::add_argument(
-  p, "--tags", help = "selected tags",
-  nargs = Inf
-)
 
 # parse the command line arguments
 argv <- argparser::parse_args(p)
 
-# write cli args to individual variablels
-module <-argv$module
-cred_file <- argv$credentials
-cache_dir <- argv$cache_dir
+# write cli args to individual variables
+flag_view <- argv$view
+flag_list <- argv$list
+
 projects <- argv$projects
 tags <- argv$tags
+sites <- argv$sites
+individuals <- argv$individuals
 
-# check if module is selected
-if (!(module %in% c("progress_table", "sites"))) {
-  stop("Unknown module or no module selected (-m)")
+cred_file <- argv$credentials
+cache_dir <- argv$cache_dir
+
+# check that only one is selected among the exclusive arguments
+if (flag_view & flag_list | !flag_view & !flag_list) {
+  stop("Select either --list or --view")
 }
 
 #### connect to PANDORA ####
@@ -71,8 +93,26 @@ con <- sidora.core::get_pandora_connection()
 
 #### call modules ####
 
-if (module == "progress_table") {
-  source("progress_table.R", local = T, print.eval = T)
-} else if (module == "sites") {
-  source("sites.R", local = T, print.eval = T)
+paste(length(projects))
+
+if (flag_view) {
+  if (!is.na(projects)) {
+    "Not implemented"
+  } else if (!is.na(tags)) {
+    "Not implemented"
+  } else if (!is.na(sites)) {
+    source("sites.R", local = T, print.eval = T)
+  } else if (!is.na(individuals)) {
+    "Not implemented"
+  }
+} else if (flag_list) {
+  if (!is.na(projects)) {
+    source("progress_table.R", local = T, print.eval = T)
+  } else if (!is.na(tags)) {
+    "Not implemented"
+  } else if (!is.na(sites)) {
+    source("sites.R", local = T, print.eval = T)
+  } else if (!is.na(individuals)) {
+    "Not implemented"
+  }
 }
