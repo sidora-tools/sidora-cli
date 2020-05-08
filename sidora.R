@@ -80,6 +80,7 @@ cache_dir <- argv$cache_dir
 con <- sidora.core::get_pandora_connection()
 
 #### call modules ####
+source("helpers.R", local = T, print.eval = T)
 
 # module projects
 if (module == "projects") {
