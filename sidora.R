@@ -25,40 +25,19 @@ p <- argparser::arg_parser(
   hide.opts = T
 )
 
-# subcommand flags
+# general interface
 p <- argparser::add_argument(
-  p, "projects", short = "p",
-  help = "return list of projects"
+  p, "module",
+  help = "One of: summary, list, view, projects, tags"
 )
 p <- argparser::add_argument(
-  p, "tags",  short = "t",
-  help = "return list of tags"
+  p, "--entity_type", short = "-t",
+  help = "For module: summary, list, view - One of: project, tag, site, individual",
+  nargs = 1
 )
 p <- argparser::add_argument(
-  p, "summary", short = "s",
-  help = "return information on an individual object"
-)
-p <- argparser::add_argument(
-  p, "list", short = "l",
-  help = "return a list with information for multiple objects"
-)
-
-# "what" flags and arguments
-p <- argparser::add_argument(
-  p, "--project", help = "selected projects",
-  nargs = Inf
-)
-p <- argparser::add_argument(
-  p, "--tag", help = "selected tags",
-  nargs = Inf
-)
-p <- argparser::add_argument(
-  p, "--site", help = "selected sites",
-  nargs = Inf
-)
-p <- argparser::add_argument(
-  p, "--individual", help = "selected individuals",
-  nargs = Inf
+  p, "--entity_id", short = "-i",
+  help = "For module: summary, list, view - Identifier of one or multiple: projects, tags, sites, individuals"
 )
 
 # technical arguments
@@ -77,24 +56,15 @@ p <- argparser::add_argument(
 argv <- argparser::parse_args(p)
 
 # write cli args to individual variables
-projects <- argv$projects
-tags <- argv$tags
-
-flag_summary <- argv$summary
-flag_list <- argv$list
-
-project <- argv$project
-tag <- argv$tag
-site <- argv$site
-individual <- argv$individual
+module <- argv$module
+entity_type <- argv$entity_type
+entity_id <- argv$entity_id
 
 cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
 
-# check that only one is selected among the exclusive arguments
-# if (flag_summary & flag_list | !flag_summary & !flag_list) {
-#   stop("Select either --list or --summary")
-# }
+# input argument checks
+# TODO
 
 #### connect to PANDORA ####
 
@@ -102,32 +72,43 @@ con <- sidora.core::get_pandora_connection()
 
 #### call modules ####
 
-if (projects) {
+# module projects
+if (module == "projects") {
   "Not implemented"
-} else if (tags) {
+# module tags
+} else if (module == "tags") {
   "Not implemented"
-} else if (flag_summary) {
-  if (!is.na(project)) {
+# module summary
+} else if (module = "summary") {
+  if (entity_type == "project") {
     "Not implemented"
-  } else if (!is.na(tag)) {
+  } else if (entity_type == "tag") {
     "Not implemented"
-  } else if (!is.na(site)) {
+  } else if (entity_type == "site") {
     source("site.R", local = T, print.eval = T)
-  } else if (!is.na(individual)) {
+  } else if (entity_type == "individual") {
     "Not implemented"
   }
-} else if (flag_list) {
-  if (!is.na(project)) {
-    source("progress_table.R", local = T, print.eval = T)
-  } else if (!is.na(tag)) {
+# module list
+} else if (module == "list") {
+  if (entity_type == "project") {
     "Not implemented"
-  } else if (!is.na(site)) {
+  } else if (entity_type == "tag") {
+    "Not implemented"
+  } else if (entity_type == "site") {
     source("site.R", local = T, print.eval = T)
-  } else if (!is.na(individual)) {
+  } else if (entity_type == "individual") {
     "Not implemented"
-  } else if (projects) {
+  }
+# module view
+} else if (module == "view") {
+  if (entity_type == "project") {
     "Not implemented"
-  } else if (tags) {
+  } else if (entity_type == "tag") {
+    "Not implemented"
+  } else if (entity_type == "site") {
+    "Not implemented"
+  } else if (entity_type == "individual") {
     "Not implemented"
   }
 }
