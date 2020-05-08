@@ -37,7 +37,7 @@ p <- argparser::add_argument(
 
 # "how" flags
 p <- argparser::add_argument(
-  p, "--view", short = "-v", 
+  p, "--summary", short = "-v", 
   help = "return information on an individual object", 
   flag = T
 )
@@ -84,7 +84,7 @@ argv <- argparser::parse_args(p)
 projects <- argv$projects
 tags <- argv$tags
 
-flag_view <- argv$view
+flag_summary <- argv$summary
 flag_list <- argv$list
 
 project <- argv$project
@@ -96,8 +96,8 @@ cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
 
 # check that only one is selected among the exclusive arguments
-# if (flag_view & flag_list | !flag_view & !flag_list) {
-#   stop("Select either --list or --view")
+# if (flag_summary & flag_list | !flag_summary & !flag_list) {
+#   stop("Select either --list or --summary")
 # }
 
 #### connect to PANDORA ####
@@ -110,7 +110,7 @@ if (projects) {
   "Not implemented"
 } else if (tags) {
   "Not implemented"
-} else if (flag_view) {
+} else if (flag_summary) {
   if (!is.na(project)) {
     "Not implemented"
   } else if (!is.na(tag)) {
