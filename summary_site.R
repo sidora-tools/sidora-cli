@@ -1,7 +1,7 @@
 sites <- sidora.core::get_df(con, tab = "TAB_Site", cache_dir = cache_dir)
 
 selected <- sites %>%
-  dplyr::filter(Site_Id == entity_id | Name == entity_id)
+  dplyr::filter(Site_Id == entity_id[1] | Name == entity_id[1])
 
 print(tibble::as_tibble(
   selected %>% dplyr::select(Site_Id, Name, Country, Tags, Projects)
