@@ -116,7 +116,7 @@ if (module == "projects") {
   } else if (entity_type == "tag") {
     cat("Not implemented\n")
   } else if (entity_type == "site") {
-    cat("Not implemented\n")
+    source("view_site.R", local = T, print.eval = T)
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
