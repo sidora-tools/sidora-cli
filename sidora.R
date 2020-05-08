@@ -2,7 +2,7 @@
 
 #### install necessary R packages if not available yet ####
 
-necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core", "tibble", "txtplot", "dplyr")
+necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core", "tibble", "txtplot", "dplyr", "readr")
 missing_packages <- necessary_packages[!(necessary_packages %in% rownames(installed.packages()))]
 
 if (length(missing_packages) > 0) {
@@ -40,6 +40,13 @@ p <- argparser::add_argument(
   help = "For module: summary, list, view - Identifier of one or multiple: projects, tags, sites, individuals"
 )
 
+# specific options
+p <- argparser::add_argument(
+  p, "--as_tsv",
+  help = "For module: list - Return the list as tab-separated data", 
+  flag = T
+)
+
 # technical arguments
 p <- argparser::add_argument(
   p, "--credentials", short = "-c", 
@@ -59,6 +66,8 @@ argv <- argparser::parse_args(p)
 module <- argv$module
 entity_type <- argv$entity_type
 entity_id <- unlist(strsplit(argv$entity_id, ","))
+
+as_tsv <- argv$as_tsv
 
 cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
