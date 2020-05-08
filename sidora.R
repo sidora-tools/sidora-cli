@@ -21,30 +21,26 @@ library(magrittr)
 # create cli arg parser
 p <- argparser::arg_parser(
   name = "sidora.cli", 
-  description = "MPI-SHH Pandora DB command line interface",
+  description = "MPI-SHH Pandora DB command line interface test",
   hide.opts = T
 )
 
-# "sugar" flags
+# subcommand flags
 p <- argparser::add_argument(
-  p, "--projects", help = "return list of projects",
-  flag = T
+  p, "projects", short = "p",
+  help = "return list of projects"
 )
 p <- argparser::add_argument(
-  p, "--tags", help = "return list of tags",
-  flag = T
-)
-
-# "how" flags
-p <- argparser::add_argument(
-  p, "--summary", short = "-v", 
-  help = "return information on an individual object", 
-  flag = T
+  p, "tags",  short = "t",
+  help = "return list of tags"
 )
 p <- argparser::add_argument(
-  p, "--list", short = "-l", 
-  help = "return a list with information for multiple objects", 
-  flag = T
+  p, "summary", short = "s",
+  help = "return information on an individual object"
+)
+p <- argparser::add_argument(
+  p, "list", short = "l",
+  help = "return a list with information for multiple objects"
 )
 
 # "what" flags and arguments
