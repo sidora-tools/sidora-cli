@@ -74,41 +74,41 @@ con <- sidora.core::get_pandora_connection()
 
 # module projects
 if (module == "projects") {
-  "Not implemented"
+  cat("Not implemented\n")
 # module tags
 } else if (module == "tags") {
-  "Not implemented"
+  cat("Not implemented\n")
 # module summary
-} else if (module = "summary") {
+} else if (module == "summary") {
   if (entity_type == "project") {
-    "Not implemented"
+    cat("Not implemented\n")
   } else if (entity_type == "tag") {
-    "Not implemented"
+    cat("Not implemented\n")
   } else if (entity_type == "site") {
-    source("site.R", local = T, print.eval = T)
+    source("summary_site.R", local = T, print.eval = T)
   } else if (entity_type == "individual") {
-    "Not implemented"
+    cat("Not implemented\n")
   }
 # module list
 } else if (module == "list") {
   if (entity_type == "project") {
-    "Not implemented"
+    cat("Not implemented\n")
   } else if (entity_type == "tag") {
-    "Not implemented"
+    cat("Not implemented\n")
   } else if (entity_type == "site") {
-    source("site.R", local = T, print.eval = T)
+    cat("Not implemented\n")
   } else if (entity_type == "individual") {
-    "Not implemented"
+    cat("Not implemented\n")
   }
 # module view
 } else if (module == "view") {
   if (entity_type == "project") {
-    "Not implemented"
+    cat("Not implemented\n")
   } else if (entity_type == "tag") {
-    "Not implemented"
+    cat("Not implemented\n")
   } else if (entity_type == "site") {
-    "Not implemented"
+    cat("Not implemented\n")
   } else if (entity_type == "individual") {
-    "Not implemented"
+    cat("Not implemented\n")
   }
 }
