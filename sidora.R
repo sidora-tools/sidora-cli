@@ -25,7 +25,17 @@ p <- argparser::arg_parser(
   hide.opts = T
 )
 
-# how-flags
+# "sugar" flags
+p <- argparser::add_argument(
+  p, "--projects", help = "return list of projects",
+  flag = T
+)
+p <- argparser::add_argument(
+  p, "--tags", help = "return list of tags",
+  flag = T
+)
+
+# "how" flags
 p <- argparser::add_argument(
   p, "--view", short = "-v", 
   help = "return information on an individual object", 
@@ -37,21 +47,21 @@ p <- argparser::add_argument(
   flag = T
 )
 
-# what-arguments
+# "what" flags and arguments
 p <- argparser::add_argument(
-  p, "--projects", help = "selected projects",
+  p, "--project", help = "selected projects",
   nargs = Inf
 )
 p <- argparser::add_argument(
-  p, "--tags", help = "selected tags",
+  p, "--tag", help = "selected tags",
   nargs = Inf
 )
 p <- argparser::add_argument(
-  p, "--sites", help = "selected tags",
+  p, "--site", help = "selected sites",
   nargs = Inf
 )
 p <- argparser::add_argument(
-  p, "--individuals", help = "selected tags",
+  p, "--individual", help = "selected individuals",
   nargs = Inf
 )
 
@@ -71,21 +81,24 @@ p <- argparser::add_argument(
 argv <- argparser::parse_args(p)
 
 # write cli args to individual variables
+projects <- argv$projects
+tags <- argv$tags
+
 flag_view <- argv$view
 flag_list <- argv$list
 
-projects <- argv$projects
-tags <- argv$tags
-sites <- argv$sites
-individuals <- argv$individuals
+project <- argv$project
+tag <- argv$tag
+site <- argv$site
+individual <- argv$individual
 
 cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
 
 # check that only one is selected among the exclusive arguments
-if (flag_view & flag_list | !flag_view & !flag_list) {
-  stop("Select either --list or --view")
-}
+# if (flag_view & flag_list | !flag_view & !flag_list) {
+#   stop("Select either --list or --view")
+# }
 
 #### connect to PANDORA ####
 
@@ -93,26 +106,32 @@ con <- sidora.core::get_pandora_connection()
 
 #### call modules ####
 
-paste(length(projects))
-
-if (flag_view) {
-  if (!is.na(projects)) {
+if (projects) {
+  "Not implemented"
+} else if (tags) {
+  "Not implemented"
+} else if (flag_view) {
+  if (!is.na(project)) {
     "Not implemented"
-  } else if (!is.na(tags)) {
+  } else if (!is.na(tag)) {
     "Not implemented"
-  } else if (!is.na(sites)) {
-    source("sites.R", local = T, print.eval = T)
-  } else if (!is.na(individuals)) {
+  } else if (!is.na(site)) {
+    source("site.R", local = T, print.eval = T)
+  } else if (!is.na(individual)) {
     "Not implemented"
   }
 } else if (flag_list) {
-  if (!is.na(projects)) {
+  if (!is.na(project)) {
     source("progress_table.R", local = T, print.eval = T)
-  } else if (!is.na(tags)) {
+  } else if (!is.na(tag)) {
     "Not implemented"
-  } else if (!is.na(sites)) {
-    source("sites.R", local = T, print.eval = T)
-  } else if (!is.na(individuals)) {
+  } else if (!is.na(site)) {
+    source("site.R", local = T, print.eval = T)
+  } else if (!is.na(individual)) {
+    "Not implemented"
+  } else if (projects) {
+    "Not implemented"
+  } else if (tags) {
     "Not implemented"
   }
 }
