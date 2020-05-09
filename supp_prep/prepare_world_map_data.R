@@ -4,12 +4,6 @@
 plot_width <- 80
 plot_height <- 20
 
-# dots that should be highlighted
-points_of_interest <- tibble::tibble(
-  x = c(9, 30, -70, 80),
-  y = c(45, 45, -50, -30)
-)
-
 #### prepare data ####
 
 # world map landmass as a raster
@@ -50,13 +44,6 @@ landmass_cells_plot <- landmass_cells %>%
     land = TRUE
   )
 
-points_of_interest_cells_plot <- points_of_interest %>%
-  dplyr::mutate(
-    x = as.integer(cut(x, breaks = c(x_breaks$x_coord_start[1], x_breaks$x_coord_stop), labels = 1:plot_width)),
-    y = as.integer(cut(y, breaks =  c(y_breaks$y_coord_start[1], y_breaks$y_coord_stop), labels = 1:plot_height)),
-    position = TRUE
-  )
-
 # compiling plot grid
 plot_grid <- expand.grid(
   x = 1:plot_width,
@@ -65,25 +52,9 @@ plot_grid <- expand.grid(
   dplyr::left_join(
     landmass_cells_plot, by = c("x", "y")
   ) %>%
-  dplyr::left_join(
-    points_of_interest_cells_plot, by = c("x", "y")
-  ) %>%
   dplyr::mutate(
-    land =  tidyr::replace_na(land, FALSE),
-    position =  tidyr::replace_na(position, FALSE)
+    land =  tidyr::replace_na(land, FALSE)
   )
 
-# ascii plot
-for (ro in seq(plot_height, 1, -1)) {
-  for (co in 1:plot_width) {
-    cur <- plot_grid[plot_grid$x == co & plot_grid$y == ro,]
-    if (!cur$land & !cur$position) {
-      cat(" ")
-    } else if (cur$land & !cur$position) {
-      cat(".")
-    } else if (cur$position) {
-      cat("X")
-    }
-  }
-  cat("\n")
-}
+# store data
+save(plot_width, plot_height, x_breaks, y_breaks, plot_grid, file = "supp_data/world_map_data.RData")

@@ -79,7 +79,7 @@ cache_dir <- argv$cache_dir
 
 con <- sidora.core::get_pandora_connection()
 
-#### call modules ####
+#### call modules and load data ####
 source("helpers.R", local = T, print.eval = T)
 
 # module projects
@@ -90,6 +90,7 @@ if (module == "projects") {
   cat("Not implemented\n")
 # module summary
 } else if (module == "summary") {
+  load("supp_data/world_map_data.RData")
   if (entity_type == "project") {
     cat("Not implemented\n")
   } else if (entity_type == "tag") {

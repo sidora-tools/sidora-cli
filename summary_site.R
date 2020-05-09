@@ -6,12 +6,7 @@ selected <- sites %>%
 selected %>% dplyr::select(Site_Id, Name, Country, Tags, Projects) %>% knitr::kable()
 
 if (nrow(selected) > 0) {
-  txtplot::txtplot(
-    x = selected$Longitude, y = selected$Latitude, 
-    pch = "+", width = 80, height = 20, 
-    ylim = c(-95, 95),
-    xlab = "Longitude", ylab = "Latitude", 
-  )
+  ascii_world_map(selected$Longitude, selected$Latitude)
 }
 
 if (nrow(selected) == 0) {
