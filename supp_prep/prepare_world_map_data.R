@@ -32,6 +32,16 @@ ju <- gnu %>%
     land = 1
   )
 
+points_of_interest <- tibble::tibble(
+  x = c(9, 30),
+  y = c(45, 45)
+) %>%
+  dplyr::mutate(
+    x = as.integer(cut(x, breaks = c(x_breaks$x_coord_start[1], x_breaks$x_coord_stop), labels = 1:plot_width)),
+    y = as.integer(cut(y, breaks =  c(y_breaks$y_coord_start[1], y_breaks$y_coord_stop), labels = 1:plot_height)),
+    position = 2
+  )
+
 gu <- expand.grid(
   x = 1:plot_width,
   y = 1:plot_height
@@ -39,18 +49,23 @@ gu <- expand.grid(
   dplyr::left_join(
     ju, by = c("x", "y")
   ) %>%
+  dplyr::left_join(
+    points_of_interest, by = c("x", "y")
+  ) %>%
   dplyr::mutate(
-    z = land
+    land =  tidyr::replace_na(land, 0),
+    position =  tidyr::replace_na(position, 0),
+    z = land + position
   )
 
 for (ro in seq(20, 1, -1)) {
   for (co in 1:80) {
     cur <- gu$z[gu$x == co & gu$y == ro]
-    if (is.na(cur)) {
+    if (cur == 0) {
       cat(" ")
     } else if (cur == 1) {
       cat(".")
-    } else if (cur == 2) {
+    } else if (cur > 1) {
       cat("X")
     }
   }
