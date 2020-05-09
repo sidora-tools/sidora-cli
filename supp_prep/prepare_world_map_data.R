@@ -1,24 +1,32 @@
-plot_width <- 120
-plot_height <- 30
+#### input info ####
 
+# dimensions of the ascii plot
+plot_width <- 80
+plot_height <- 20
+
+# dots that should be highlighted
 points_of_interest <- tibble::tibble(
-  x = c(9, 30, -70),
-  y = c(45, 45, -50)
+  x = c(9, 30, -70, 80),
+  y = c(45, 45, -50, -30)
 )
 
+#### prepare data ####
+
+# world map landmass as a raster
 world_map_raster <- raster::rasterize(
   rnaturalearthdata::countries110, 
   raster::raster(xmn = -180, xmx = 180, ymn = -90, ymx = 90, nrow = plot_height, ncol = plot_width)
 )
 
+# extract worldmass positions
 world_map_matrix <- t(raster::as.matrix(world_map_raster))
-
 landmass_cells <- raster::xyFromCell(
   world_map_raster, 
   cell = which(!is.na(world_map_matrix))
 ) %>% 
   tibble::as_tibble()
 
+# remapping of point positions to the ascii plot grid
 x_breaks <- tibble::tibble(
   x_plot_pos = 1:plot_width
 ) %>%
@@ -49,6 +57,7 @@ points_of_interest_cells_plot <- points_of_interest %>%
     position = TRUE
   )
 
+# compiling plot grid
 plot_grid <- expand.grid(
   x = 1:plot_width,
   y = 1:plot_height
@@ -64,10 +73,11 @@ plot_grid <- expand.grid(
     position =  tidyr::replace_na(position, FALSE)
   )
 
+# ascii plot
 for (ro in seq(plot_height, 1, -1)) {
   for (co in 1:plot_width) {
     cur <- plot_grid[plot_grid$x == co & plot_grid$y == ro,]
-    if (!cur$land) {
+    if (!cur$land & !cur$position) {
       cat(" ")
     } else if (cur$land & !cur$position) {
       cat(".")
@@ -77,6 +87,3 @@ for (ro in seq(plot_height, 1, -1)) {
   }
   cat("\n")
 }
-
-
-
