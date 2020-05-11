@@ -49,8 +49,8 @@ ascii_world_map <- function(lon = c(), lat = c()) {
       ) %>%
       dplyr::group_by(.data[["x"]], .data[["y"]]) %>%
       dplyr::summarise(
-        number_of_samples = sum(position),
-        position = any(position)
+        number_of_samples = sum(.data[["position"]]),
+        position = any(.data[["position"]])
       ) %>%
       dplyr::ungroup()
     
@@ -60,8 +60,8 @@ ascii_world_map <- function(lon = c(), lat = c()) {
         points_of_interest_cells_plot, by = c("x", "y")
       ) %>%
       dplyr::mutate(
-        number_of_samples =  tidyr::replace_na(.data[["number_of_samples"]], FALSE),
-        position =  tidyr::replace_na(.data[["position"]], FALSE)
+        number_of_samples = tidyr::replace_na(.data[["number_of_samples"]], FALSE),
+        position = tidyr::replace_na(.data[["position"]], FALSE)
       )
   
   }
