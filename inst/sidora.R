@@ -1,19 +1,5 @@
 #!/usr/bin/env Rscript
 
-#### install necessary R packages if not available yet ####
-
-necessary_packages <- c("magrittr", "argparser", "devtools", "sidora.core", "tibble", "txtplot", "dplyr", "readr")
-missing_packages <- necessary_packages[!(necessary_packages %in% rownames(installed.packages()))]
-
-if (length(missing_packages) > 0) {
-  cat("There are R packages missing (", paste(missing_packages, collapse = ", "), "). Do you want to install them? [y/n]: ") 
-  user_input_install <- readLines(con = "stdin", 1)
-  if (tolower(user_input_install) == "y") {
-    install.packages(missing_packages[missing_packages != "sidora.core"])
-    if(!require("sidora.core")) { devtools::install_github("sidora-tools/sidora.core") }
-  }
-}
-
 library(magrittr)
 
 #### command line input parsing ####
@@ -80,7 +66,6 @@ cache_dir <- argv$cache_dir
 con <- sidora.core::get_pandora_connection()
 
 #### call modules and load data ####
-source("helpers.R", local = T, print.eval = T)
 
 # module projects
 if (module == "projects") {
@@ -90,13 +75,12 @@ if (module == "projects") {
   cat("Not implemented\n")
 # module summary
 } else if (module == "summary") {
-  load("supp_data/world_map_data.RData")
   if (entity_type == "project") {
     cat("Not implemented\n")
   } else if (entity_type == "tag") {
     cat("Not implemented\n")
   } else if (entity_type == "site") {
-    source("summary_site.R", local = T, print.eval = T)
+    sidora.cli::summary_site(con, entity_id, cache_dir)
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
@@ -107,7 +91,7 @@ if (module == "projects") {
   } else if (entity_type == "tag") {
     cat("Not implemented\n")
   } else if (entity_type == "site") {
-    source("list_site.R", local = T, print.eval = T)
+    sidora.cli::list_site(con, entity_id, as_tsv, cache_dir)
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
@@ -118,7 +102,7 @@ if (module == "projects") {
   } else if (entity_type == "tag") {
     cat("Not implemented\n")
   } else if (entity_type == "site") {
-    source("view_site.R", local = T, print.eval = T)
+    sidora.cli::view_site(con, entity_id, cache_dir)
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }

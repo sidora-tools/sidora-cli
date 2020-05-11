@@ -1,0 +1,32 @@
+Package: sidora.cli
+Title: Basic CLI for PANDORA (MPI-SHH DAG)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Clemens",
+           family = "Schmid",
+           role = c("aut", "cre"),
+           email = "clemens@nevrome.de",
+           comment = c(ORCID = "0000-0003-3448-5715"))
+Description: A basic interface to access data and generate reports from the internal database PANDORA (MPI-SHH DAG) on the command line. The package is supposed to be only used through the CLI script.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+  R (>= 2.10)
+Imports:
+  magrittr,
+  argparser,
+  devtools,
+  sidora.core,
+  tibble,
+  txtplot,
+  dplyr,
+  readr
+Suggests: 
+  DBI,
+  RMariaDB,
+  testthat (>= 2.1.0)
+RoxygenNote: 7.1.0
+Remotes: 
+  sidora-tools/sidora.core
+

@@ -1,3 +1,5 @@
+library(magrittr)
+
 #### input info ####
 
 # dimensions of the ascii plot
@@ -57,4 +59,11 @@ plot_grid <- expand.grid(
   )
 
 # store data
-save(plot_width, plot_height, x_breaks, y_breaks, plot_grid, file = "supp_data/world_map_data.RData")
+world_map_data <- list(
+  plot_width = plot_width, 
+  plot_height = plot_height, 
+  x_breaks = x_breaks, 
+  y_breaks = y_breaks, 
+  plot_grid = plot_grid
+)
+usethis::use_data(world_map_data)
