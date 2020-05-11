@@ -4,7 +4,7 @@
 \alias{ascii_world_map}
 \title{ascii_world_map}
 \usage{
-ascii_world_map(lon, lat)
+ascii_world_map(lon = c(), lat = c())
 }
 \arguments{
 \item{lon}{test}
