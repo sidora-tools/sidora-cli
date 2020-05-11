@@ -67,32 +67,33 @@ ascii_world_map <- function(lon = c(), lat = c()) {
   }
   
   # ascii plot
-  cat("\u25AE")
-  cat(rep("\u2014", sidora.cli::world_map_data$plot_width + 2), sep = "")
-  cat("\u25AE")
+  cat("\u2554")
+  cat(rep("\u2550", sidora.cli::world_map_data$plot_width + 2), sep = "")
+  cat("\u2557")
   cat("\n")
   for (ro in seq(sidora.cli::world_map_data$plot_height, 1, -1)) {
-    cat("| ")
+    cat("\u2551 ")
     row_number_of_samples <- 0
     for (co in 1:sidora.cli::world_map_data$plot_width) {
       cur <- plot_grid[plot_grid$x == co & plot_grid$y == ro,]
       if (!cur$land & !cur$position) {
         cat(" ")
       } else if (cur$land & !cur$position) {
-        cat("\u25CB")
+        cat("\u2591")
       } else if (cur$position) {
         cat("\u25CF")
         row_number_of_samples <- row_number_of_samples + cur$number_of_samples
       }
     }
-    cat(" |")
+    cat(" \u2551")
     if (row_number_of_samples > 0) {
       cat(" \u25C0", row_number_of_samples)
     }
     cat("\n")
   }
-  cat("\u25AE")
-  cat(rep("\u2014", sidora.cli::world_map_data$plot_width + 2), sep = "")
-  cat("\u25AE")
+  cat("\u255A")
+  cat(rep("\u2550", sidora.cli::world_map_data$plot_width + 2), sep = "")
+  cat("\u255D")
+  cat("\n")
   
 }
