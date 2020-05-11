@@ -17,3 +17,7 @@ remotes::install_github('sidora-tools/sidora.cli')
 5. Run it with `./sidora.R --help`
 
 This will only work within the MPI-SHH network. It also requires R and most likely a UNIX system.
+
+## For developers
+
+The script can be found in the `inst/` directory. A normal development workflow would be to modify the package, build it (!), and then run the script in `inst/` (where you will need a `.credentials` file).
