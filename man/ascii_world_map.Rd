@@ -7,9 +7,9 @@
 ascii_world_map(lon, lat)
 }
 \arguments{
-\item{pattern}{test}
+\item{lon}{test}
 
-\item{search_vector}{test}
+\item{lat}{test}
 }
 \description{
 plot world map on the console

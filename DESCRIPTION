@@ -21,7 +21,10 @@ Imports:
   tibble,
   txtplot,
   dplyr,
-  readr
+  readr,
+  knitr,
+  tidyr,
+  rlang
 Suggests: 
   DBI,
   RMariaDB,
