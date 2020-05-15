@@ -16,6 +16,7 @@ Depends:
 Imports:
   magrittr,
   argparser,
+  crayon,
   devtools,
   sidora.core,
   tibble,

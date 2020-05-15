@@ -14,16 +14,16 @@ p <- argparser::arg_parser(
 # general interface
 p <- argparser::add_argument(
   p, "module",
-  help = "One of: view, summary, list, tabulate"
+  help = "One of: view, summarise, list, tabulate"
 )
 p <- argparser::add_argument(
   p, "--entity_type", short = "-t",
-  help = "For module: view, summary, list, tabulate - One of: project, tag, site, individual",
+  help = "For module: view, summarise, list, tabulate - One of: project, tag, site, individual",
   nargs = 1
 )
 p <- argparser::add_argument(
   p, "--entity_id", short = "-i",
-  help = "For module: view, summary, list, tabulate - Identifier of one or multiple: projects, tags, sites, individuals"
+  help = "For module: view, summarise, list, tabulate - Identifier of one or multiple: projects, tags, sites, individuals"
 )
 
 # specific options
@@ -81,14 +81,14 @@ if (module == "list") {
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
-# module summary
-} else if (module == "summary") {
+# module summarise
+} else if (module == "summarise") {
   if (entity_type == "project") {
     cat("Not implemented\n")
   } else if (entity_type == "tag") {
     cat("Not implemented\n")
   } else if (entity_type == "site") {
-    sidora.cli::summary_site(con, entity_id, cache_dir)
+    sidora.cli::summarise_site(con, entity_id, cache_dir)
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
