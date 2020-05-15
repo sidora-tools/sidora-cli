@@ -48,8 +48,8 @@ summarise_site <- function(con, entity_id, cache_dir) {
     
     # Dating
     if (!all(is.na(sel_individuals$C14_Calibrated_From))) {
-      starts <- sel_individuals$C14_Calibrated_From %>% na.omit() %>% as.vector() %>% `+`(1950)
-      stops <- sel_individuals$C14_Calibrated_To %>% na.omit() %>% as.vector() %>% `+`(1950)
+      starts <- sel_individuals$C14_Calibrated_From %>% na.omit() %>% as.vector()
+      stops <- sel_individuals$C14_Calibrated_To %>% na.omit() %>% as.vector()
       touched_millenia <- c(starts, stops) %>% `/`(1000) %>% floor() %>% table() %>% 
         tibble::as_tibble() %>%
         `colnames<-`(c("mill", "n")) %>%
