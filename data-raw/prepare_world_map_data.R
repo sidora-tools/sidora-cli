@@ -3,8 +3,8 @@ library(magrittr)
 #### input info ####
 
 # dimensions of the ascii plot
-plot_width <- 80
-plot_height <- 20
+plot_width <- 55
+plot_height <- 12
 
 #### prepare data ####
 
@@ -66,4 +66,4 @@ world_map_data <- list(
   y_breaks = y_breaks, 
   plot_grid = plot_grid
 )
-usethis::use_data(world_map_data)
+usethis::use_data(world_map_data, overwrite = T)
