@@ -90,7 +90,7 @@ if (module == "list") {
   } else if (entity_type == "site") {
     sidora.cli::summarise_site(con, entity_id, cache_dir)
   } else if (entity_type == "individual") {
-    cat("Not implemented\n")
+    sidora.cli::summarise_individual(con, entity_id, cache_dir)
   }
 # module tabulate
 } else if (module == "tabulate") {
