@@ -1,11 +1,11 @@
-#' summary_site
+#' summarise_site
 #'
 #' @param con test
 #' @param entity_id test
 #' @param cache_dir test
 #'
 #' @export
-summary_site <- function(con, entity_id, cache_dir) {
+summarise_site <- function(con, entity_id, cache_dir) {
 
   # get data
   sites <- sidora.core::get_df(con, tab = "TAB_Site", cache_dir = cache_dir)
