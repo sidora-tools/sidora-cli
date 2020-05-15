@@ -14,16 +14,16 @@ p <- argparser::arg_parser(
 # general interface
 p <- argparser::add_argument(
   p, "module",
-  help = "One of: summary, list, view, projects, tags"
+  help = "One of: view, summary, list, tabulate"
 )
 p <- argparser::add_argument(
   p, "--entity_type", short = "-t",
-  help = "For module: summary, list, view - One of: project, tag, site, individual",
+  help = "For module: view, summary, list, tabulate - One of: project, tag, site, individual",
   nargs = 1
 )
 p <- argparser::add_argument(
   p, "--entity_id", short = "-i",
-  help = "For module: summary, list, view - Identifier of one or multiple: projects, tags, sites, individuals"
+  help = "For module: view, summary, list, tabulate - Identifier of one or multiple: projects, tags, sites, individuals"
 )
 
 # specific options
@@ -67,12 +67,20 @@ con <- sidora.core::get_pandora_connection()
 
 #### call modules and load data ####
 
-# module projects
-if (module == "projects") {
+# module list
+if (module == "list") {
   cat("Not implemented\n")
-# module tags
-} else if (module == "tags") {
-  cat("Not implemented\n")
+# module view
+} else if (module == "view") {
+  if (entity_type == "project") {
+    cat("Not implemented\n")
+  } else if (entity_type == "tag") {
+    cat("Not implemented\n")
+  } else if (entity_type == "site") {
+    sidora.cli::view_site(con, entity_id, cache_dir)
+  } else if (entity_type == "individual") {
+    cat("Not implemented\n")
+  }
 # module summary
 } else if (module == "summary") {
   if (entity_type == "project") {
@@ -84,25 +92,14 @@ if (module == "projects") {
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
-# module list
-} else if (module == "list") {
+# module tabulate
+} else if (module == "tabulate") {
   if (entity_type == "project") {
     cat("Not implemented\n")
   } else if (entity_type == "tag") {
     cat("Not implemented\n")
   } else if (entity_type == "site") {
-    sidora.cli::list_site(con, entity_id, as_tsv, cache_dir)
-  } else if (entity_type == "individual") {
-    cat("Not implemented\n")
-  }
-# module view
-} else if (module == "view") {
-  if (entity_type == "project") {
-    cat("Not implemented\n")
-  } else if (entity_type == "tag") {
-    cat("Not implemented\n")
-  } else if (entity_type == "site") {
-    sidora.cli::view_site(con, entity_id, cache_dir)
+    sidora.cli::tabulate_site(con, entity_id, as_tsv, cache_dir)
   } else if (entity_type == "individual") {
     cat("Not implemented\n")
   }
