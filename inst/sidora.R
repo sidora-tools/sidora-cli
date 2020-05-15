@@ -69,7 +69,7 @@ con <- sidora.core::get_pandora_connection()
 
 # module list
 if (module == "list") {
-  cat("Not implemented\n")
+  sidora.cli::list(con, entity_type, cache_dir)
 # module view
 } else if (module == "view") {
   if (entity_type == "project") {
