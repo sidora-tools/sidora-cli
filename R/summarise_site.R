@@ -5,10 +5,14 @@
 #' @param cache_dir test
 #'
 #' @export
-summarise_site <- function(con, entity_id, cache_dir) {
+summarise_site <- function(
+  con = sidora.core::get_pandora_connection(), 
+  entity_id = "Futuna", 
+  cache_dir = "/tmp/sidora.cli_table_cache"
+) {
 
   # get data
-  sites <- sidora.core::get_df(con, tab = "TAB_Site", cache_dir = cache_dir)
+  sites <- sidora.core::get_df(tab = "TAB_Site", con = con, cache_dir = cache_dir)
   # filter
   sel_basic <- sites %>% dplyr::filter(.data[["Site_Id"]] == entity_id[1] | .data[["Name"]] == entity_id[1])
 
@@ -16,14 +20,11 @@ summarise_site <- function(con, entity_id, cache_dir) {
   if (nrow(sel_basic) > 0) {
     
     # get additional data and merge
-    individuals <- sidora.core::get_df(con, tab = "TAB_Individual", cache_dir = cache_dir)
-    sel_individuals <- dplyr::left_join(
-      sel_basic %>% dplyr::rename("Site" = "Id"), 
-      individuals,
-      by = "Site",
-      suffix = c(".Site", ".Individual")
-    )
-    
+    sel_merged <- sidora.core::join_pandora_tables(x = list(
+      "TAB_Site" = sel_basic, 
+      "TAB_Individual" = sidora.core::get_df(tab = "TAB_Individual", con = con, cache_dir = cache_dir)
+    ))
+
     # Site name
     cat("---\n")
     cat(
@@ -40,16 +41,16 @@ summarise_site <- function(con, entity_id, cache_dir) {
     # Individuals from this site
     cat(
       crayon::underline("Individuals:") %+% " " %+% crayon::yellow(paste0(
-        sel_individuals$Full_Individual_Id, 
+        sel_merged$Full_Individual_Id, 
         collapse = ", "
       )) %+% 
       "\n"
     )
     
     # Dating
-    if (!all(is.na(sel_individuals$C14_Calibrated_From))) {
-      starts <- sel_individuals$C14_Calibrated_From %>% na.omit() %>% as.vector()
-      stops <- sel_individuals$C14_Calibrated_To %>% na.omit() %>% as.vector()
+    if (!all(is.na(sel_merged$C14_Calibrated_From))) {
+      starts <- sel_merged$C14_Calibrated_From %>% na.omit() %>% as.vector()
+      stops <- sel_merged$C14_Calibrated_To %>% na.omit() %>% as.vector()
       touched_millenia <- c(starts, stops) %>% `/`(1000) %>% floor() %>% table() %>% 
         tibble::as_tibble() %>%
         `colnames<-`(c("mill", "n")) %>%

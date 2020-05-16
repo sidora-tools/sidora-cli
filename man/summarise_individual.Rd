@@ -4,7 +4,11 @@
 \alias{summarise_individual}
 \title{summarise_individual}
 \usage{
-summarise_individual(con, entity_id, cache_dir)
+summarise_individual(
+  con = sidora.core::get_pandora_connection(),
+  entity_id = "FUT001",
+  cache_dir = "/tmp/sidora.cli_table_cache"
+)
 }
 \arguments{
 \item{con}{test}

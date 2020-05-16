@@ -5,7 +5,11 @@
 #' @param cache_dir test
 #'
 #' @export
-summarise_individual <- function(con, entity_id, cache_dir) {
+summarise_individual <- function(
+  con = sidora.core::get_pandora_connection(), 
+  entity_id = "FUT001", 
+  cache_dir = "/tmp/sidora.cli_table_cache"
+) {
   
   # get data
   individuals <- sidora.core::get_df(con, tab = "TAB_Individual", cache_dir = cache_dir)
@@ -16,19 +20,12 @@ summarise_individual <- function(con, entity_id, cache_dir) {
   if (nrow(sel_basic) > 0) {
     
     # get additional data and merge
-    sites <- sidora.core::get_df(con, tab = "TAB_Site", cache_dir = cache_dir)
-    samples <- sidora.core::get_df(con, tab = "TAB_Sample", cache_dir = cache_dir)
-    sel_merged <- dplyr::left_join(
-      sel_basic %>% dplyr::rename("Individual" = "Id"), 
-      sites %>% dplyr::rename("Site" = "Id"),
-      by = "Site",
-      suffix = c(".Individual", ".Site")
-    ) %>%
-      dplyr::left_join(
-        samples %>% dplyr::rename("Sample" = "Id"),
-        by = "Individual",
-        suffix = c(".Individual", ".Sample")
-      )
+    sel_merged <- sidora.core::join_pandora_tables(x = list(
+      "TAB_Site" = sidora.core::get_df(tab = "TAB_Site", con = con, cache_dir = cache_dir) %>% dplyr::filter(Id == sel_basic$Site),
+      "TAB_Individual" = sel_basic,
+      "TAB_Sample" = sidora.core::get_df(con, tab = "TAB_Sample", cache_dir = cache_dir)
+    ))
+    
     
     # Title
     cat("---\n")

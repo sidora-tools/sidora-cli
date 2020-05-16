@@ -4,7 +4,11 @@
 \alias{summarise_site}
 \title{summarise_site}
 \usage{
-summarise_site(con, entity_id, cache_dir)
+summarise_site(
+  con = sidora.core::get_pandora_connection(),
+  entity_id = "Futuna",
+  cache_dir = "/tmp/sidora.cli_table_cache"
+)
 }
 \arguments{
 \item{con}{test}
