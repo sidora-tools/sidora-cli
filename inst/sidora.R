@@ -93,6 +93,10 @@ if (module == "list") {
     sidora.cli::summarise_individual(con, entity_id, cache_dir)
   } else if (entity_type == "sample") {
     sidora.cli::summarise_sample(con, entity_id, cache_dir)
+  } else if (entity_type == "extract") {
+    sidora.cli::summarise_extract(con, entity_id, cache_dir)
+  } else if (entity_type == "library") {
+    sidora.cli::summarise_library(con, entity_id, cache_dir)
   }
 # module tabulate
 } else if (module == "tabulate") {
