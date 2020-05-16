@@ -1,4 +1,4 @@
-#' list
+#' list_module
 #'
 #' A module where, given a pandora entity type, a row-wise list of IDs will be printed for screen. Useful for fast look up of certain IDs.
 #' 
@@ -6,10 +6,10 @@
 #' @param entity_type a pandora table to the generate a list of IDs from. Options: site,
 #' @param cache_dir location of your cache directory.
 #' @examples 
-#' list(con, "site", cache_dir)
+#' list_module(con, "site", cache_dir)
 
 
-list <- function(con, entity_type, cache_dir) {
+list_module <- function(con, entity_type, cache_dir) {
   
   entity_map <- c(
     site = "TAB_Site",
