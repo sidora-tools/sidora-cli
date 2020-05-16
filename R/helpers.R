@@ -97,3 +97,61 @@ ascii_world_map <- function(lon = c(), lat = c()) {
   cat("\n")
   
 }
+
+#' convert_option_to_pandora_table
+#'
+#' Given a command line `-t` options, retrieve the corresponding PANDORA table name and (full) ID column
+#'
+#' @param entity_type a valid entity type (e.g. site, sample, individual etc.)
+#'
+#' @export
+
+convert_option_to_pandora_table <- function(entity_type = NA) {
+  
+  if (is.na(entity_type))
+    stop("[sidora.cli] error: no entity type supplied.")
+  
+  entity_map <- c(
+    site = "TAB_Site",
+    individual = "TAB_Individual",
+    sample = "TAB_Sample",
+    extract = "TAB_Extract",
+    library = "TAB_Library",
+    capture = "TAB_Capture",
+    sequencing = "TAB_Sequencing",
+    raw_data = "TAB_Raw_Data",
+    sequencer = "TAB_Sequencer",
+    tag = "TAB_Tag",
+    project = "TAB_Project"
+  )
+  
+  id_col_map <- c(
+    TAB_Site = "Full_Site_Id",
+    TAB_Individual = "Full_Individual_Id",
+    TAB_Sample = "Full_Sample_Id",
+    TAB_Extract = "Full_Extract_Id",
+    TAB_Library = "Full_Library_Id",
+    TAB_Capture  = "Full_Capture_Id",
+    TAB_Sequencing = "Full_Sequencing_Id",
+    TAB_Raw_Data = "Full_Raw_Data_Id",
+    TAB_Sequencer = "Name",
+    TAB_Tag = "Name",
+    TAB_Project = "Name"
+  )
+  
+  if (!entity_type %in% names(entity_map))
+    stop(
+      cat("[sidora.cli] error: your supplied table is not recognised. Options:", 
+          paste(names(entity_map), collapse = ", "),
+          "",
+          sep = "\n")
+    )
+  
+  selected_entity = entity_map[entity_type]
+  selected_col = id_col_map[selected_entity] %>% as.character()
+  
+  result <- list(pandora_table = selected_entity, id_column = selected_col)
+  
+  return(result)
+  
+}
