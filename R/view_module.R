@@ -6,8 +6,8 @@
 #' @param entity_type test
 #' @param entity_id test
 #' @param cache_dir test
-#' @example 
-#' 
+#' @examples
+#' view_module(con, "site", "ABM)
 #' @export
 view_module <- function(con, entity_type, entity_id, cache_dir) {
 
@@ -19,8 +19,8 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
                                         cache_dir = cache_dir)
 
   table_filtered <- selected_table %>% 
-    dplyr::filter(eval(as.symbol(tab_info$id_column)) == entity_id) %>%
-    filter(!Deleted)
+    dplyr::filter(eval(as.symbol(tab_info$id_column)) == entity_id,
+                  !Deleted)
   
   ## Check table isn't empty, and do fuzzy search if true
   if (nrow(table_filtered) == 0) {
