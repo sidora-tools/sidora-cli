@@ -4,6 +4,7 @@
 #' @param entity_id test
 #' @param cache_dir test
 #'
+#' @rdname summarise
 #' @export
 summarise_site <- function(
   con = sidora.core::get_pandora_connection(), 
@@ -51,7 +52,7 @@ summarise_site <- function(
     if (!all(is.na(sel_merged$C14_Calibrated_From))) {
       starts <- sel_merged$C14_Calibrated_From %>% na.omit() %>% as.vector()
       stops <- sel_merged$C14_Calibrated_To %>% na.omit() %>% as.vector()
-      touched_millenia <- c(starts, stops) %>% `/`(1000) %>% floor() %>% table() %>% 
+      touched_millenia <- c(starts, stops) %>% `/`(., 1000) %>% floor() %>% table() %>% 
         tibble::as_tibble() %>%
         `colnames<-`(c("mill", "n")) %>%
         dplyr::mutate(

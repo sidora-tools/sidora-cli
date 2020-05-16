@@ -1,9 +1,4 @@
-#' summarise_sample
-#'
-#' @param con test
-#' @param entity_id test
-#' @param cache_dir test
-#'
+#' @rdname summarise
 #' @export
 summarise_sample <- function(
   con = sidora.core::get_pandora_connection(), 
