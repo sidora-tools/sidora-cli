@@ -25,6 +25,11 @@ p <- argparser::add_argument(
   p, "--entity_id", short = "-i",
   help = "For module: view, summarise, list, tabulate - Identifier of one or multiple: projects, tags, sites, individuals"
 )
+p <- argparser::add_argument(
+  p, "--filter", short = "-f",
+  help = "..."
+)
+
 
 # specific options
 p <- argparser::add_argument(
@@ -52,8 +57,10 @@ argv <- argparser::parse_args(p)
 module <- argv$module
 entity_type <- argv$entity_type
 entity_id <- unlist(strsplit(argv$entity_id, ","))
+filter_string <- argv$filter
 
 as_tsv <- argv$as_tsv
+
 
 cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
@@ -100,13 +107,5 @@ if (module == "list") {
   }
 # module tabulate
 } else if (module == "tabulate") {
-  if (entity_type == "project") {
-    cat("Not implemented\n")
-  } else if (entity_type == "tag") {
-    cat("Not implemented\n")
-  } else if (entity_type == "site") {
-    sidora.cli::tabulate_site(con, entity_id, as_tsv, cache_dir)
-  } else if (entity_type == "individual") {
-    cat("Not implemented\n")
-  }
+  sidora.cli::tabulate_module(con, entity_type, filter_string, as_tsv, cache_dir)
 }
