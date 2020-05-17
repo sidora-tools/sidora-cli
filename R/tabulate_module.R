@@ -40,7 +40,8 @@ tabulate_module <- function(
   }
   
   result_table <- joined_table %>%
-    dplyr::filter(!is.na(!!rlang::sym(paste0(firstup(filter_entity_type), "_Id"))))
+    dplyr::filter(!is.na(!!rlang::sym(paste0(firstup(filter_entity_type), "_Id")))) %>%
+    dplyr::select(colnames(table_list[[entity_type_table]]))
   
   print(result_table)
   
