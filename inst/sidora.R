@@ -79,15 +79,7 @@ if (module == "list") {
   sidora.cli::list_module(con, entity_type, cache_dir)
 # module view
 } else if (module == "view") {
-  if (entity_type == "project") {
-    cat("Not implemented\n")
-  } else if (entity_type == "tag") {
-    cat("Not implemented\n")
-  } else if (entity_type == "site") {
-    sidora.cli::view_site(con, entity_id, cache_dir)
-  } else if (entity_type == "individual") {
-    cat("Not implemented\n")
-  }
+  sidora.cli::view_module(con, entity_type, entity_id, cache_dir)
 # module summarise
 } else if (module == "summarise") {
   if (entity_type == "project") {
