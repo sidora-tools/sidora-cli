@@ -7,7 +7,8 @@
 tabulate_module(
   con = sidora.core::get_pandora_connection(),
   entity_type = "site",
-  filter_string = "Latitude > 50",
+  filter_entity_type = "sample",
+  filter_string = "Protocol == 18",
   as_tsv = T,
   cache_dir = "/tmp/sidora.cli_table_cache"
 )
