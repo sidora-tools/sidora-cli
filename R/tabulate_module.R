@@ -22,9 +22,7 @@ tabulate_module <- function(
   
   # get the relevant tables and the tables in between
   table_list <- sidora.core::get_df_list(
-    # TODO: Function to fill the table sequence automatically
-    #c(entity_type_table, "TAB_Site", "TAB_Individual", filter_entity_type_table), 
-    c("TAB_Site", "TAB_Individual"),
+    sidora.core::make_complete_table_list(c(entity_type_table, filter_entity_type_table)),
     con = con, cache_dir = cache_dir
   )
   
