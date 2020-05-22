@@ -6,6 +6,7 @@
 #' @param entity_type test
 #' @param entity_id test
 #' @param cache_dir test
+#'
 #' @export
 view_module <- function(con, entity_type, entity_id, cache_dir) {
 
