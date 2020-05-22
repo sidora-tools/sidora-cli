@@ -106,5 +106,5 @@ if (module == "list") {
   }
 # module tabulate
 } else if (module == "tabulate") {
-  sidora.cli::tabulate_module(con, entity_type, filter_entity_type, filter_string, as_tsv, cache_dir)
+  sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, cache_dir)
 }
