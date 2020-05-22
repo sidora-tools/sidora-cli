@@ -5,22 +5,13 @@
 #' @param con a pandora connection from sidora.core
 #' @param entity_type a pandora table to the generate a list of IDs from. Options: site,
 #' @param cache_dir location of your cache directory.
-#' @examples 
-#' list_module(con, "site", cache_dir)
+#' 
 #' @export
-
 list_module <- function(con, entity_type, cache_dir) {
   
-  tab_info <- sidora.cli::convert_option_to_pandora_table(entity_type)
-
-  table <- sidora.core::get_df(con, 
-                               tab = tab_info$pandora_table, 
-                               cache_dir = cache_dir)
+  selected_table <- sidora.core::get_df(con, tab = sidora.core::entity2table(entity_type), cache_dir = cache_dir)
   
-  ## Use cat() to ensure pretty printing in terminal
-  table %>% 
-    dplyr::select(tab_info$id_col) %>% 
-    dplyr::pull(tab_info$id_col) %>% 
+  selected_table[[sidora.core::get_namecol_from_entity(entity_type)]] %>% 
     cat(sep = "\n")
   
 }
