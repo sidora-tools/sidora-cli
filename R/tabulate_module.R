@@ -72,6 +72,10 @@ tabulate_module <- function(
   
   }
   
-  print(result_table)
+  if (as_tsv) {
+    result_table %>% readr::format_tsv() %>% cat()
+  } else {
+    result_table %>% print()
+  }
   
 }
