@@ -9,7 +9,7 @@ summarise_library <- function(
   # get data
   libraries <- sidora.core::get_df(con, tab = "TAB_Library", cache_dir = cache_dir)
   # filter
-  sel_basic <- libraries %>% dplyr::filter(.data[["Full_Library_Id"]] == entity_id[1])
+  sel_basic <- libraries %>% dplyr::filter(.data[["library.Full_Library_Id"]] == entity_id[1])
   
   
   if (nrow(sel_basic) > 0) {
@@ -17,7 +17,7 @@ summarise_library <- function(
     # get additional data and merge
     sel_merged <- sidora.core::join_pandora_tables(x = list(
       "TAB_Extract" = sidora.core::get_df(tab = "TAB_Extract", con = con, cache_dir = cache_dir) %>% 
-        dplyr::filter(Id == sel_basic$Extract),
+        dplyr::filter(extract.Id == sel_basic$library.Extract),
       "TAB_Library" = sel_basic,
       "TAB_Capture" = sidora.core::get_df(con, tab = "TAB_Capture", cache_dir = cache_dir),
       "TAB_Sequencing" = sidora.core::get_df(con, tab = "TAB_Sequencing", cache_dir = cache_dir)
@@ -29,10 +29,10 @@ summarise_library <- function(
     cat(
       crayon::underline("Library:") %+% " " %+% 
         crayon::silver(crayon::bold(
-          sel_basic$Full_Library_Id
+          sel_basic$library.Full_Library_Id
         ))  %+% " " %+%
         crayon::blue(
-          "from extract", unique(sel_merged$Full_Extract_Id)
+          "from extract", unique(sel_merged$extract.Full_Extract_Id)
         ) %+% 
         "\n"
     )
@@ -41,14 +41,14 @@ summarise_library <- function(
     # Captures and sequencing runs from this library
     cat(
       crayon::underline("Sequencing runs (SG -> no capture):") %+% " " %+% paste0(
-        crayon::bgGreen(sel_merged$Full_Sequencing_Id),
+        crayon::bgGreen(sel_merged$sequencing.Full_Sequencing_Id),
         collapse = ", "
       ) %+% 
         "\n"
     )
     
   } else {
-    sidora.cli::fuzzy_search(entity_id[1], libraries$Full_Library_Id)
+    sidora.cli::fuzzy_search(entity_id[1], libraries$library.Full_Library_Id)
   }
   
 }
