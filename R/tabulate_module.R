@@ -11,14 +11,14 @@ tabulate_module <- function(
   con = sidora.core::get_pandora_connection(), 
   entity_type = "site", 
   filter_entity_type = "sample",
-  filter_string = "Protocol == 18",
+  filter_string = "sample.Protocol == 18",
   as_tsv = T,
   cache_dir = "/tmp/sidora.cli_table_cache"
 ) {
 
   # transform table names
-  entity_type_table <- sidora.cli::convert_option_to_pandora_table(entity_type)$pandora_table
-  filter_entity_type_table <- sidora.cli::convert_option_to_pandora_table(filter_entity_type)$pandora_table
+  entity_type_table <- sidora.core::entity2table(entity_type)
+  filter_entity_type_table <- sidora.core::entity2table(filter_entity_type)
   
   # get the relevant tables and the tables in between
   table_list <- sidora.core::get_df_list(
@@ -28,24 +28,19 @@ tabulate_module <- function(
   )
   
   # apply filter operation on filter entity
-  table_list[[filter_entity_type_table]] <- eval(parse(text = 
-   "table_list[[filter_entity_type_table]] %>% dplyr::filter(" %+%
-   filter_string %+%
+  table_list[[filter_entity_type_table]] <- eval(parse(text = c(
+   "table_list[[filter_entity_type_table]] %>% dplyr::filter(",
+   filter_string,
    ")"
-  ))
+  )))
   
   # create big, merged table
-  # TODO: Better way to filter to final result, maybe another join function that starts from the filter entity
+  # TODO: (optional) Better way to filter to final result, maybe another join function that starts from the filter entity
   joined_table <- sidora.core::join_pandora_tables(table_list) 
 
-  firstup <- function(x) {
-    substr(x, 1, 1) <- toupper(substr(x, 1, 1))
-    x
-  }
-  
   result_table <- joined_table %>%
     # filter merged table to only include values in filtered filter entity
-    dplyr::filter(!is.na(!!rlang::sym(paste0(firstup(filter_entity_type), "_Id")))) %>%
+    dplyr::filter(!is.na(!!rlang::sym( sidora.core::get_namecol_from_entity(filter_entity_type) ))) %>%
     # reduce result variable selection to requested entity
     dplyr::select(colnames(table_list[[entity_type_table]]))
   
