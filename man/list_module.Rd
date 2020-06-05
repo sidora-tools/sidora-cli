@@ -16,6 +16,3 @@ list_module(con, entity_type, cache_dir)
 \description{
 A module where, given a pandora entity type, a row-wise list of IDs will be printed for screen. Useful for fast look up of certain IDs.
 }
-\examples{
-list_module(con, "site", cache_dir)
-}

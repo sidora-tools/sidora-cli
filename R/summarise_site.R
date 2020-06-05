@@ -4,6 +4,7 @@
 #' @param entity_id test
 #' @param cache_dir test
 #'
+#' @rdname summarise
 #' @export
 summarise_site <- function(
   con = sidora.core::get_pandora_connection(), 
@@ -14,7 +15,7 @@ summarise_site <- function(
   # get data
   sites <- sidora.core::get_df(tab = "TAB_Site", con = con, cache_dir = cache_dir)
   # filter
-  sel_basic <- sites %>% dplyr::filter(.data[["Site_Id"]] == entity_id[1] | .data[["Name"]] == entity_id[1])
+  sel_basic <- sites %>% dplyr::filter(.data[["site.Site_Id"]] == entity_id[1] | .data[["site.Name"]] == entity_id[1])
 
   
   if (nrow(sel_basic) > 0) {
@@ -30,9 +31,9 @@ summarise_site <- function(
     cat(
       crayon::underline("Site:") %+% " " %+% 
       crayon::green(
-        crayon::bold(sel_basic$Name), 
-        paste0("(", sel_basic$Site_Id ,")"),
-        "in", sel_basic$Country
+        crayon::bold(sel_basic$site.Name), 
+        paste0("(", sel_basic$site.Site_Id ,")"),
+        "in", sel_basic$site.Country
       ) %+% 
       "\n"
     )
@@ -41,17 +42,17 @@ summarise_site <- function(
     # Individuals from this site
     cat(
       crayon::underline("Individuals:") %+% " " %+% crayon::yellow(paste0(
-        sel_merged$Full_Individual_Id, 
+        sel_merged$individual.Full_Individual_Id, 
         collapse = ", "
       )) %+% 
       "\n"
     )
     
     # Dating
-    if (!all(is.na(sel_merged$C14_Calibrated_From))) {
-      starts <- sel_merged$C14_Calibrated_From %>% na.omit() %>% as.vector()
-      stops <- sel_merged$C14_Calibrated_To %>% na.omit() %>% as.vector()
-      touched_millenia <- c(starts, stops) %>% `/`(1000) %>% floor() %>% table() %>% 
+    if (!all(is.na(sel_merged$individual.C14_Calibrated_From))) {
+      starts <- sel_merged$individual.C14_Calibrated_From %>% na.omit() %>% as.vector()
+      stops <- sel_merged$individual.C14_Calibrated_To %>% na.omit() %>% as.vector()
+      touched_millenia <- c(starts, stops) %>% `/`(., 1000) %>% floor() %>% table() %>% 
         tibble::as_tibble() %>%
         `colnames<-`(c("mill", "n")) %>%
         dplyr::mutate(
@@ -73,12 +74,12 @@ summarise_site <- function(
     }
     
     # Map  
-    if (!all(is.na(sel_basic$Longitude))) {
-      sidora.cli::ascii_world_map(sel_basic$Longitude, sel_basic$Latitude)
+    if (!all(is.na(sel_basic$site.Longitude))) {
+      sidora.cli::ascii_world_map(sel_basic$site.Longitude, sel_basic$site.Latitude)
     }
       
   } else {
-    sidora.cli::fuzzy_search(entity_id[1], c(sites$Site_Id, sites$Name))
+    sidora.cli::fuzzy_search(entity_id[1], c(sites$site.Site_Id, sites$site.Name))
   }
   
 }
