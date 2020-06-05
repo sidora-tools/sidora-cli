@@ -13,9 +13,16 @@ list_module <- function(con, entity_type, cache_dir) {
   
   tab_info <- sidora.cli::convert_option_to_pandora_table(entity_type)
 
-  table <- sidora.core::get_df(con, 
-                               tab = tab_info$pandora_table, 
-                               cache_dir = cache_dir)
+  if (entity_type %in% sidora.core::pandora_tables_restricted) {
+    
+    table <- sidora.core::access_restricted_table(con, entity_id = tab_info)
+    
+  } else {
+    table <- sidora.core::get_df(con, 
+                                 tab = tab_info$pandora_table, 
+                                 cache_dir = cache_dir)
+  }
+
   
   ## Use cat() to ensure pretty printing in terminal
   table %>% 

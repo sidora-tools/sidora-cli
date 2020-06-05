@@ -19,8 +19,8 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
                                         cache_dir = cache_dir)
 
   table_filtered <- selected_table %>% 
-    dplyr::filter(eval(as.symbol(tab_info$id_column)) == entity_id,
-                  !Deleted)
+    dplyr::filter(eval(as.symbol(tab_info$id_column)) == entity_id, 
+                  !eval(as.symbol(paste0(entity_type, ".Deleted"))))
   
   ## Check table isn't empty, and do fuzzy search if true
   if (nrow(table_filtered) == 0) {
@@ -30,8 +30,11 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
     ## Format for printing, not tidy output, so suppressed warnings from gather
     suppressWarnings(
       table_filtered %>%
-        dplyr::select(-Id, -Deleted, -Deleted_Date) %>%
+        dplyr::select(-paste0(entity_type, ".Id"), 
+                      -paste0(entity_type, ".Deleted"), 
+                      -paste0(entity_type, ".Deleted_Date")) %>%
         tidyr::gather("Field", "Value", 1:ncol(.)) %>% 
+        dplyr::mutate(Field = gsub(paste0(entity_type, "\\."), "", Field)) %>%
         knitr::kable() %>% 
         print()
     )

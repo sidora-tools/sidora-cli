@@ -120,23 +120,23 @@ convert_option_to_pandora_table <- function(entity_type = NA) {
     capture = "TAB_Capture",
     sequencing = "TAB_Sequencing",
     raw_data = "TAB_Raw_Data",
-    sequencer = "TAB_Sequencer",
+    sequencer = "TAB_Sequencing_Sequencer",
     tag = "TAB_Tag",
     project = "TAB_Project"
   )
   
   id_col_map <- c(
-    TAB_Site = "Full_Site_Id",
-    TAB_Individual = "Full_Individual_Id",
-    TAB_Sample = "Full_Sample_Id",
-    TAB_Extract = "Full_Extract_Id",
-    TAB_Library = "Full_Library_Id",
-    TAB_Capture  = "Full_Capture_Id",
-    TAB_Sequencing = "Full_Sequencing_Id",
-    TAB_Raw_Data = "Full_Raw_Data_Id",
-    TAB_Sequencer = "Name",
-    TAB_Tag = "Name",
-    TAB_Project = "Name"
+    TAB_Site = "site.Full_Site_Id",
+    TAB_Individual = "individualFull_Individual_Id",
+    TAB_Sample = "sample.Full_Sample_Id",
+    TAB_Extract = "extract.Full_Extract_Id",
+    TAB_Library = "library.Full_Library_Id",
+    TAB_Capture  = "capture.Full_Capture_Id",
+    TAB_Sequencing = "sequencing.Full_Sequencing_Id",
+    TAB_Raw_Data = "raw_data.Full_Raw_Data_Id",
+    TAB_Sequencing_Sequencer = "sequencer.Name",
+    TAB_Tag = "tag.Name",
+    TAB_Project = "project.Name"
   )
   
   if (!entity_type %in% names(entity_map))
@@ -155,3 +155,5 @@ convert_option_to_pandora_table <- function(entity_type = NA) {
   return(result)
   
 }
+
+
