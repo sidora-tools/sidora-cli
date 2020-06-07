@@ -33,7 +33,7 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
                       -paste0(entity_type, ".Deleted"), 
                       -paste0(entity_type, ".Deleted_Date")) %>%
         tidyr::gather("Field", "Value", 1:ncol(.)) %>% 
-        dplyr::mutate(Field = gsub(paste0(entity_type, "\\."), "", Field)) %>%
+        dplyr::mutate(Field = gsub(paste0(entity_type, "\\."), "", .data$Field)) %>%
         knitr::kable() %>% 
         print()
     )

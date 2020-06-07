@@ -127,7 +127,7 @@ convert_option_to_pandora_table <- function(entity_type = NA) {
   
   id_col_map <- c(
     TAB_Site = "site.Full_Site_Id",
-    TAB_Individual = "individualFull_Individual_Id",
+    TAB_Individual = "individual.Full_Individual_Id",
     TAB_Sample = "sample.Full_Sample_Id",
     TAB_Extract = "extract.Full_Extract_Id",
     TAB_Library = "library.Full_Library_Id",

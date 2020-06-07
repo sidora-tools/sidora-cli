@@ -6,9 +6,10 @@
 \usage{
 tabulate_module(
   con = sidora.core::get_pandora_connection(),
-  entity_type = "site",
-  filter_entity_type = "sample",
-  filter_string = "sample.Protocol == 18",
+  entity_type,
+  entity_id = c(),
+  filter_entity_type = NA,
+  filter_string = NA,
   as_tsv = T,
   cache_dir = "/tmp/sidora.cli_table_cache"
 )
