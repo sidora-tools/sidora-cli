@@ -21,7 +21,9 @@ list_module <- function(con, entity_type, cache_dir) {
                                  cache_dir = cache_dir)
   }
 
-#  selected_table <- sidora.core::get_df(con, tab = sidora.core::entity2table(entity_type), cache_dir = cache_dir)
+  selected_table <- sidora.core::get_df(con, 
+                                        tab = sidora.core::entity2table(entity_type), 
+                                        cache_dir = cache_dir)
 
   selected_table[[sidora.core::get_namecol_from_entity(entity_type)]] %>% 
     cat(sep = "\n")
