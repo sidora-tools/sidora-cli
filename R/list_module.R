@@ -7,25 +7,34 @@
 #' @param cache_dir location of your cache directory.
 #' 
 #' @export
-list_module <- function(con, entity_type, cache_dir) {
+list_module <- function(
+  con = sidora.core::get_pandora_connection(), 
+  entity_type,
+  entity_id = c(),
+  filter_entity_type = NA,
+  filter_string = NA,
+  cache_dir = "/tmp/sidora.cli_table_cache"
+) {
   
-  tab_info <- sidora.cli::convert_option_to_pandora_table(entity_type)
+  # if (entity_type %in% sidora.core::pandora_tables_restricted) {
+  #   
+  #   table <- sidora.core::access_restricted_table(con, entity_id = tab_info)
+  #   
+  # } else {
+  #   table <- sidora.core::get_df(con, 
+  #                                tab = tab_info$pandora_table, 
+  #                                cache_dir = cache_dir)
+  # }
 
-  if (entity_type %in% sidora.core::pandora_tables_restricted) {
-    
-    table <- sidora.core::access_restricted_table(con, entity_id = tab_info)
-    
-  } else {
-    table <- sidora.core::get_df(con, 
-                                 tab = tab_info$pandora_table, 
-                                 cache_dir = cache_dir)
-  }
+  tabulate_module(
+    con = con,
+    entity_type = entity_type,
+    entity_id = entity_id,
+    filter_entity_type = filter_entity_type,
+    filter_string = filter_string,
+    as_tsv = F,
+    as_id_list = T,
+    cache_dir = cache_dir
+  )
 
-  selected_table <- sidora.core::get_df(con, 
-                                        tab = sidora.core::entity2table(entity_type), 
-                                        cache_dir = cache_dir)
-
-  selected_table[[sidora.core::get_namecol_from_entity(entity_type)]] %>% 
-    cat(sep = "\n")
-  
 }

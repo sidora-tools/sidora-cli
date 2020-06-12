@@ -83,7 +83,7 @@ con <- sidora.core::get_pandora_connection()
 
 # module list
 if (module == "list") {
-  sidora.cli::list_module(con, entity_type, cache_dir)
+  sidora.cli::list_module(con, entity_type, entity_id, filter_entity_type, filter_string, cache_dir)
 # module view
 } else if (module == "view") {
   sidora.cli::view_module(con, entity_type, entity_id, cache_dir)
@@ -106,5 +106,5 @@ if (module == "list") {
   }
 # module tabulate
 } else if (module == "tabulate") {
-  sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, cache_dir)
+  sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, as_id_list = F, cache_dir)
 }
