@@ -7,40 +7,51 @@ library(magrittr)
 # create cli arg parser
 p <- argparser::arg_parser(
   name = "sidora.cli", 
-  description = "MPI-SHH Pandora DB command line interface test",
+  description = c(
+    "MPI-SHH DAG Pandora DB command line interface.", 
+    "See https://github.com/sidora-tools/sidora.cli for more information."
+  ),
   hide.opts = T
 )
 
 # general interface
 p <- argparser::add_argument(
   p, "module",
-  help = "One of: view, summarise, list, tabulate"
+  help = paste(c(
+    "sidora-cli operation you want to perform. One of: view, summarise, list, tabulate.",
+    "The modules allow to access Pandora data in different ways and therefore have different",
+    "command line options.",
+    "[view]: Show basic information for an individual entry of Pandora.",
+    "[summarise]: Show more sophisticated (cross-table) information for an individual entry.",
+    "[list]: Show a (filtered) list of identifiers for multiple entries.",
+    "[tabulate]: Show a table with information for multiple entries."
+  ), collapse = "\n")
 )
 p <- argparser::add_argument(
   p, "--entity_type", short = "-t",
-  help = "For module: view, summarise, list, tabulate - One of: project, tag, site, individual",
+  help = "|[view], [summarise], [list], [tabulate]| Pandora entity type (table) you want to access. e.g. \"project\", \"site\", \"individual\"",
   nargs = 1
 )
 p <- argparser::add_argument(
   p, "--entity_id", short = "-i",
-  help = "For module: view, summarise, list, tabulate - Identifier of one or multiple: projects, tags, sites, individuals"
+  help = "|[view], [summarise], [list], [tabulate]| Identifier of one or multiple (separated by \",\") pandora entries depending on the selected entity_type. e.g. \"Futuna\", \"FUT001\", \"FUT001.A0101\""
 )
 
 # filter interface
 p <- argparser::add_argument(
   p, "--filter_entity_type", short = "-f",
-  help = "For module: list, tabulate - One of: project, tag, site, individual, ...",
+  help = "|[list], [tabulate]| Pandora entity type you want to use to filter the input entity_type: e.g. \"project\", \"site\", \"individual\"",
   nargs = 1
 )
 p <- argparser::add_argument(
   p, "--filter_string", short = "-s",
-  help = "..."
+  help = "|[list], [tabulate]| Filter operation you want to perform on the columns of the filter_entity_type: e.g. \"site.Country == 'Germany'\", \"site.Latitude > 46 & site.Latitude < 55 & site.Longitude > 6 & site.Longitude < 16\""
 )
 
 # specific options
 p <- argparser::add_argument(
   p, "--as_tsv",
-  help = "For module: tabulate - Return the list as tab-separated data", 
+  help = "|[tabulate]| Return the table as tab-separated data", 
   flag = T
 )
 

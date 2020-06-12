@@ -76,7 +76,7 @@ tabulate_module <- function(
   if (as_tsv) {
     result_table %>% readr::format_tsv() %>% cat()
   } else if (as_id_list) {
-    result_table %>% dplyr::pull(sidora.core::get_namecol_from_entity("individual")) %>% cat(sep = "\n")
+    result_table %>% dplyr::pull(sidora.core::get_namecol_from_entity(entity_type)) %>% cat(sep = "\n")
   } else {
     result_table %>% print()
   }
