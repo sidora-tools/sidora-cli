@@ -25,16 +25,22 @@ p <- argparser::add_argument(
   p, "--entity_id", short = "-i",
   help = "For module: view, summarise, list, tabulate - Identifier of one or multiple: projects, tags, sites, individuals"
 )
+
+# filter interface
 p <- argparser::add_argument(
-  p, "--filter", short = "-f",
+  p, "--filter_entity_type", short = "-f",
+  help = "For module: list, tabulate - One of: project, tag, site, individual, ...",
+  nargs = 1
+)
+p <- argparser::add_argument(
+  p, "--filter_string", short = "-s",
   help = "..."
 )
-
 
 # specific options
 p <- argparser::add_argument(
   p, "--as_tsv",
-  help = "For module: list - Return the list as tab-separated data", 
+  help = "For module: tabulate - Return the list as tab-separated data", 
   flag = T
 )
 
@@ -57,10 +63,11 @@ argv <- argparser::parse_args(p)
 module <- argv$module
 entity_type <- argv$entity_type
 entity_id <- unlist(strsplit(argv$entity_id, ","))
-filter_string <- argv$filter
+
+filter_entity_type <- argv$filter_entity_type
+filter_string <- argv$filter_string
 
 as_tsv <- argv$as_tsv
-
 
 cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
@@ -79,15 +86,7 @@ if (module == "list") {
   sidora.cli::list_module(con, entity_type, cache_dir)
 # module view
 } else if (module == "view") {
-  if (entity_type == "project") {
-    cat("Not implemented\n")
-  } else if (entity_type == "tag") {
-    cat("Not implemented\n")
-  } else if (entity_type == "site") {
-    sidora.cli::view_site(con, entity_id, cache_dir)
-  } else if (entity_type == "individual") {
-    cat("Not implemented\n")
-  }
+  sidora.cli::view_module(con, entity_type, entity_id, cache_dir)
 # module summarise
 } else if (module == "summarise") {
   if (entity_type == "project") {
@@ -107,5 +106,5 @@ if (module == "list") {
   }
 # module tabulate
 } else if (module == "tabulate") {
-  sidora.cli::tabulate_module(con, entity_type, filter_string, as_tsv, cache_dir)
+  sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, cache_dir)
 }
