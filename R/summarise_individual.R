@@ -18,7 +18,7 @@ summarise_individual <- function(
     sel_merged <- sidora.core::join_pandora_tables(x = list(
       "TAB_Site" = sidora.core::get_df(tab = "TAB_Site", con = con, cache_dir = cache_dir) %>% dplyr::filter(site.Id == sel_basic$individual.Site),
       "TAB_Individual" = sel_basic,
-      "TAB_Sample" = sidora.core::get_df(con, tab = "TAB_Sample", cache_dir = cache_dir)
+      "TAB_Sample" = sidora.core::get_df(tab = "TAB_Sample", con = con, cache_dir = cache_dir)
     ))
     
     
