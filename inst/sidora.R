@@ -119,3 +119,5 @@ if (module == "list") {
 } else if (module == "tabulate") {
   sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, as_id_list = F, cache_dir)
 }
+
+DBI::dbDisconnect(con)
