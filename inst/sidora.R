@@ -88,7 +88,7 @@ cache_dir <- argv$cache_dir
 
 #### connect to PANDORA ####
 
-con <- sidora.core::get_pandora_connection()
+con <- sidora.core::get_pandora_connection(cred_file)
 
 #### call modules and load data ####
 
