@@ -70,54 +70,77 @@ p <- argparser::add_argument(
 # parse the command line arguments
 argv <- argparser::parse_args(p)
 
-# write cli args to individual variables
+# get the module variable
 module <- argv$module
-entity_type <- argv$entity_type
-entity_id <- unlist(strsplit(argv$entity_id, ","))
 
-filter_entity_type <- argv$filter_entity_type
-filter_string <- argv$filter_string
+#### do stuff according to the input arguments ####
 
-as_tsv <- argv$as_tsv
+# special module help
+if (module == "help") {
+  
+  cat("╔════════════════════════════════╦════════════════════╗\n")
+  cat("║ sidora view      -t site       ║ -i FUT             ║\n") 
+  cat("║        summarise    individual ║    FUT001          ║\n") 
+  cat("║        list         sample     ║    FUT001.A        ║\n") 
+  cat("║        tabulate     extract    ║    FUT001.A01      ║\n") 
+  cat("║        ...          library    ║    FUT001.A0101    ║\n") 
+  cat("║                     ...        ║    FUT,CMC,...     ║\n")         
+  cat("║                                ║    ...             ║\n")          
+  cat("╠════════════════════════════════╩════════════════════╣\n")
+  cat("║ -f site -s \"site.Latitude > 46\"                     ║\n")
+  cat("║ -f sample -s \"grepl(\'Deep_Evolution\', sample.Tags)\" ║\n")
+  cat("╚═════════════════════════════════════════════════════╝\n")
+  cat("see .sidora.R -h for a more comprehensive manual\n")
+  
+} else {
 
-cred_file <- argv$credentials
-cache_dir <- argv$cache_dir
+  # transform more cli args to individual variables
+  entity_type <- argv$entity_type
+  entity_id <- unlist(strsplit(argv$entity_id, ","))
+  
+  filter_entity_type <- argv$filter_entity_type
+  filter_string <- argv$filter_string
+  
+  as_tsv <- argv$as_tsv
+  
+  cred_file <- argv$credentials
+  cache_dir <- argv$cache_dir
+  
+  # input argument checks
+  # TODO
+  
+  # connect to PANDORA
+  con <- sidora.core::get_pandora_connection(cred_file)
 
-# input argument checks
-# TODO
-
-#### connect to PANDORA ####
-
-con <- sidora.core::get_pandora_connection(cred_file)
-
-#### call modules and load data ####
-
-# module list
-if (module == "list") {
-  sidora.cli::list_module(con, entity_type, entity_id, filter_entity_type, filter_string, cache_dir)
-# module view
-} else if (module == "view") {
-  sidora.cli::view_module(con, entity_type, entity_id, cache_dir)
-# module summarise
-} else if (module == "summarise") {
-  if (entity_type == "project") {
-    cat("Not implemented\n")
-  } else if (entity_type == "tag") {
-    cat("Not implemented\n")
-  } else if (entity_type == "site") {
-    sidora.cli::summarise_site(con, entity_id, cache_dir)
-  } else if (entity_type == "individual") {
-    sidora.cli::summarise_individual(con, entity_id, cache_dir)
-  } else if (entity_type == "sample") {
-    sidora.cli::summarise_sample(con, entity_id, cache_dir)
-  } else if (entity_type == "extract") {
-    sidora.cli::summarise_extract(con, entity_id, cache_dir)
-  } else if (entity_type == "library") {
-    sidora.cli::summarise_library(con, entity_id, cache_dir)
+  # module list
+  if (module == "list") {
+    sidora.cli::list_module(con, entity_type, entity_id, filter_entity_type, filter_string, cache_dir)
+  # module view
+  } else if (module == "view") {
+    sidora.cli::view_module(con, entity_type, entity_id, cache_dir)
+  # module summarise
+  } else if (module == "summarise") {
+    if (entity_type == "project") {
+      cat("Not implemented\n")
+    } else if (entity_type == "tag") {
+      cat("Not implemented\n")
+    } else if (entity_type == "site") {
+      sidora.cli::summarise_site(con, entity_id, cache_dir)
+    } else if (entity_type == "individual") {
+      sidora.cli::summarise_individual(con, entity_id, cache_dir)
+    } else if (entity_type == "sample") {
+      sidora.cli::summarise_sample(con, entity_id, cache_dir)
+    } else if (entity_type == "extract") {
+      sidora.cli::summarise_extract(con, entity_id, cache_dir)
+    } else if (entity_type == "library") {
+      sidora.cli::summarise_library(con, entity_id, cache_dir)
+    }
+  # module tabulate
+  } else if (module == "tabulate") {
+    sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, as_id_list = F, cache_dir)
   }
-# module tabulate
-} else if (module == "tabulate") {
-  sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, as_id_list = F, cache_dir)
-}
 
-DBI::dbDisconnect(con)
+  # disconnect from Pandora
+  DBI::dbDisconnect(con)
+
+}
