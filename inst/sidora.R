@@ -24,12 +24,13 @@ p <- argparser::add_argument(
     "[view]: Show basic information for an individual entry of Pandora.",
     "[summarise]: Show more sophisticated (cross-table) information for an individual entry.",
     "[list]: Show a (filtered) list of identifiers for multiple entries.",
-    "[tabulate]: Show a table with information for multiple entries."
+    "[tabulate]: Show a table with information for multiple entries.",
+    "[glance]: Show an overview of the columns in a table."
   ), collapse = "\n")
 )
 p <- argparser::add_argument(
   p, "--entity_type", short = "-t",
-  help = "|[view], [summarise], [list], [tabulate]| Pandora entity type (table) you want to access. e.g. \"project\", \"site\", \"individual\"",
+  help = "|[view], [summarise], [list], [tabulate], [glance]| Pandora entity type (table) you want to access. e.g. \"project\", \"site\", \"individual\"",
   nargs = 1
 )
 p <- argparser::add_argument(
@@ -83,14 +84,15 @@ if (module == "help") {
   cat("║        summarise    individual ║    FUT001          ║\n") 
   cat("║        list         sample     ║    FUT001.A        ║\n") 
   cat("║        tabulate     extract    ║    FUT001.A01      ║\n") 
-  cat("║        ...          library    ║    FUT001.A0101    ║\n") 
-  cat("║                     ...        ║    FUT,CMC,...     ║\n")         
+  cat("║        glance       library    ║    FUT001.A0101    ║\n") 
+  cat("║        ...          ...        ║    FUT,CMC,...     ║\n")         
   cat("║                                ║    ...             ║\n")          
   cat("╠════════════════════════════════╩════════════════════╣\n")
   cat("║ -f site -s \"site.Latitude > 46\"                     ║\n")
   cat("║ -f sample -s \"grepl(\'Deep_Evolution\', sample.Tags)\" ║\n")
   cat("╚═════════════════════════════════════════════════════╝\n")
   cat("see .sidora.R -h for a more comprehensive manual\n")
+  cat(".sidora.R glance is useful to quickly see the columns in a table\n")
   
 } else {
 
@@ -138,6 +140,8 @@ if (module == "help") {
   # module tabulate
   } else if (module == "tabulate") {
     sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, as_id_list = F, cache_dir)
+  } else if (module == "glance") {
+    sidora.cli::glance_module(con, entity_type, cache_dir)
   }
 
   # disconnect from Pandora

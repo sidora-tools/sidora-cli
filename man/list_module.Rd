@@ -4,7 +4,14 @@
 \alias{list_module}
 \title{list_module}
 \usage{
-list_module(con, entity_type, cache_dir)
+list_module(
+  con = sidora.core::get_pandora_connection(),
+  entity_type,
+  entity_id = c(),
+  filter_entity_type = NA,
+  filter_string = NA,
+  cache_dir = "/tmp/sidora.cli_table_cache"
+)
 }
 \arguments{
 \item{con}{a pandora connection from sidora.core}
