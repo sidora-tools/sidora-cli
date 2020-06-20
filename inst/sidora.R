@@ -71,10 +71,15 @@ p <- argparser::add_argument(
 # parse the command line arguments
 argv <- argparser::parse_args(p)
 
+#### input argument checks ####
+sidora.cli::check_input_module(argv$module)
+# TODO: add more!
+
+#### do stuff according to the input arguments ####
+
 # get the module variable
 module <- argv$module
 
-#### do stuff according to the input arguments ####
 
 # special module help
 if (module == "help") {
@@ -107,9 +112,6 @@ if (module == "help") {
   
   cred_file <- argv$credentials
   cache_dir <- argv$cache_dir
-  
-  # input argument checks
-  # TODO
   
   # connect to PANDORA
   con <- sidora.core::get_pandora_connection(cred_file)
