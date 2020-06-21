@@ -9,7 +9,7 @@
 summarise_site <- function(
   con = sidora.core::get_pandora_connection(), 
   entity_id = "Futuna", 
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 ) {
 
   # get data

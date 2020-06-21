@@ -13,7 +13,7 @@ list_module <- function(
   entity_id = c(),
   filter_entity_type = NA,
   filter_string = NA,
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 ) {
   
   # if (entity_type %in% sidora.core::pandora_tables_restricted) {

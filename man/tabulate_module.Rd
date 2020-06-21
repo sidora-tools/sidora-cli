@@ -12,7 +12,7 @@ tabulate_module(
   filter_string = NA,
   as_tsv = T,
   as_id_list = F,
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 )
 }
 \arguments{
