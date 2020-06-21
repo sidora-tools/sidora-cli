@@ -82,8 +82,8 @@ sidora.cli::check_input_module(argv$module)
 
 #### do stuff according to the input arguments ####
 
-# special module: help
-if (argv$module == "help") {
+# special module: examples
+if (argv$module == "examples") {
   cat("╔════════════════════════════════╦════════════════════╗\n")
   cat("║ sidora view      -t site       ║ -i FUT             ║\n") 
   cat("║        summarise    individual ║    FUT001          ║\n") 
