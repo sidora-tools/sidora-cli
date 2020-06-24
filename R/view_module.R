@@ -26,12 +26,21 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
     search_vec <- selected_table %>% dplyr::pull(eval(as.symbol(tab_info$id_column)))
     sidora.cli::fuzzy_search(entity_id, search_vec)
   } else {
+    ## Find columns to get human-readable strings for get_name_from_id
+    cols2update <- names(table_filtered[sidora.core::is_sidoracol_auxid(entity_type = entity_type, col_name = names(table_filtered))])
+    
     ## Format for printing, not tidy output, so suppressed warnings from gather
     suppressWarnings(
       table_filtered %>%
         dplyr::select(-paste0(entity_type, ".Id"), 
                       -paste0(entity_type, ".Deleted"), 
                       -paste0(entity_type, ".Deleted_Date")) %>%
+        dplyr::mutate(dplyr::across(all_of(cols2update), 
+                                    ~sidora.core::get_name_from_id(con = con, 
+                                                      query_tab = entity_type, 
+                                                      query_col = dplyr::cur_column(), 
+                                                      query_id = .x, 
+                                                      cache_dir = cache_dir))) %>%
         tidyr::gather("Field", "Value", 1:ncol(.)) %>% 
         dplyr::mutate(Field = gsub(paste0(entity_type, "\\."), "", .data$Field)) %>%
         knitr::kable() %>% 
