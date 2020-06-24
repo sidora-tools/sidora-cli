@@ -12,31 +12,31 @@
 summarise_extract(
   con = sidora.core::get_pandora_connection(),
   entity_id = "FUT001.A01",
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 )
 
 summarise_individual(
   con = sidora.core::get_pandora_connection(),
   entity_id = "FUT001",
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 )
 
 summarise_library(
   con = sidora.core::get_pandora_connection(),
   entity_id = "FUT001.A0101",
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 )
 
 summarise_sample(
   con = sidora.core::get_pandora_connection(),
   entity_id = "FUT001.A",
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 )
 
 summarise_site(
   con = sidora.core::get_pandora_connection(),
   entity_id = "Futuna",
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 )
 }
 \arguments{

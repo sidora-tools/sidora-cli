@@ -59,13 +59,18 @@ p <- argparser::add_argument(
 # technical arguments
 p <- argparser::add_argument(
   p, "--credentials", short = "-c", 
-  help = "path to the credentials file", 
+  help = "Path to the credentials file", 
   type = "character", default = ".credentials"
 )
 p <- argparser::add_argument(
-  p, "--cache_dir", short = "-d", 
-  help = "path to table cache directory", 
-  type = "character", default = "/tmp/sidora.cli_table_cache"
+  p, "--cache_dir", 
+  help = "Path to table cache directory", 
+  type = "character", default = "~/.sidora"
+)
+p <- argparser::add_argument(
+  p, "--empty_cache",
+  help = "Delete the cache directory", 
+  flag = T
 )
 
 # parse the command line arguments
@@ -77,13 +82,8 @@ sidora.cli::check_input_module(argv$module)
 
 #### do stuff according to the input arguments ####
 
-# get the module variable
-module <- argv$module
-
-
-# special module help
-if (module == "help") {
-  
+# special module: examples
+if (argv$module == "examples") {
   cat("╔════════════════════════════════╦════════════════════╗\n")
   cat("║ sidora view      -t site       ║ -i FUT             ║\n") 
   cat("║        summarise    individual ║    FUT001          ║\n") 
@@ -95,58 +95,77 @@ if (module == "help") {
   cat("╠════════════════════════════════╩════════════════════╣\n")
   cat("║ -f site -s \"site.Latitude > 46\"                     ║\n")
   cat("║ -f sample -s \"grepl(\'Deep_Evolution\', sample.Tags)\" ║\n")
+  cat("╠═════════════════════════════════════════════════════╣\n")
+  cat("║ --as_tsv                                            ║\n")  
+  cat("║ --credentials                                       ║\n")  
+  cat("║ --cache_dir --empty_cache                           ║\n")  
   cat("╚═════════════════════════════════════════════════════╝\n")
   cat("see .sidora.R -h for a more comprehensive manual\n")
   cat(".sidora.R glance is useful to quickly see the columns in a table\n")
-  
-} else {
+  quit(save = "no")
+} 
 
-  # transform more cli args to individual variables
-  entity_type <- argv$entity_type
-  entity_id <- unlist(strsplit(argv$entity_id, ","))
-  
-  filter_entity_type <- argv$filter_entity_type
-  filter_string <- argv$filter_string
-  
-  as_tsv <- argv$as_tsv
-  
-  cred_file <- argv$credentials
-  cache_dir <- argv$cache_dir
-  
-  # connect to PANDORA
-  con <- sidora.core::get_pandora_connection(cred_file)
-
-  # module list
-  if (module == "list") {
-    sidora.cli::list_module(con, entity_type, entity_id, filter_entity_type, filter_string, cache_dir)
-  # module view
-  } else if (module == "view") {
-    sidora.cli::view_module(con, entity_type, entity_id, cache_dir)
-  # module summarise
-  } else if (module == "summarise") {
-    if (entity_type == "project") {
-      cat("Not implemented\n")
-    } else if (entity_type == "tag") {
-      cat("Not implemented\n")
-    } else if (entity_type == "site") {
-      sidora.cli::summarise_site(con, entity_id, cache_dir)
-    } else if (entity_type == "individual") {
-      sidora.cli::summarise_individual(con, entity_id, cache_dir)
-    } else if (entity_type == "sample") {
-      sidora.cli::summarise_sample(con, entity_id, cache_dir)
-    } else if (entity_type == "extract") {
-      sidora.cli::summarise_extract(con, entity_id, cache_dir)
-    } else if (entity_type == "library") {
-      sidora.cli::summarise_library(con, entity_id, cache_dir)
-    }
-  # module tabulate
-  } else if (module == "tabulate") {
-    sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, as_id_list = F, cache_dir)
-  } else if (module == "glance") {
-    sidora.cli::glance_module(con, entity_type, cache_dir)
+# special case: empty cache
+if (argv$empty_cache) {
+  cat("Confirm with [Y] if you want to irretrievably delete the caching directory:", argv$cache_dir)
+  cat("\n")
+  user_input <- scan("stdin", character(), n = 1)#
+  if (tolower(user_input) == "y") {
+    unlink(argv$cache_dir, recursive = T)
+    cat("The caching directory was deleted and all data will be redownloaded.\n")
+  } else {
+    cat("The caching directory was not deleted.\n")
   }
-
-  # disconnect from Pandora
-  DBI::dbDisconnect(con)
-
 }
+
+# transform more cli args to individual variables
+module <- argv$module
+
+entity_type <- argv$entity_type
+entity_id <- unlist(strsplit(argv$entity_id, ","))
+
+filter_entity_type <- argv$filter_entity_type
+filter_string <- argv$filter_string
+
+as_tsv <- argv$as_tsv
+
+cred_file <- argv$credentials
+cache_dir <- argv$cache_dir
+
+# connect to PANDORA
+con <- sidora.core::get_pandora_connection(cred_file)
+
+# module list
+if (module == "list") {
+  sidora.cli::list_module(con, entity_type, entity_id, filter_entity_type, filter_string, cache_dir)
+# module view
+} else if (module == "view") {
+  sidora.cli::view_module(con, entity_type, entity_id, cache_dir)
+# module summarise
+} else if (module == "summarise") {
+  if (entity_type == "project") {
+    cat("Not implemented\n")
+  } else if (entity_type == "tag") {
+    cat("Not implemented\n")
+  } else if (entity_type == "site") {
+    sidora.cli::summarise_site(con, entity_id, cache_dir)
+  } else if (entity_type == "individual") {
+    sidora.cli::summarise_individual(con, entity_id, cache_dir)
+  } else if (entity_type == "sample") {
+    sidora.cli::summarise_sample(con, entity_id, cache_dir)
+  } else if (entity_type == "extract") {
+    sidora.cli::summarise_extract(con, entity_id, cache_dir)
+  } else if (entity_type == "library") {
+    sidora.cli::summarise_library(con, entity_id, cache_dir)
+  }
+# module tabulate
+} else if (module == "tabulate") {
+  sidora.cli::tabulate_module(con, entity_type, entity_id, filter_entity_type, filter_string, as_tsv, as_id_list = F, cache_dir)
+} else if (module == "glance") {
+  sidora.cli::glance_module(con, entity_type, cache_dir)
+}
+
+# disconnect from Pandora
+DBI::dbDisconnect(con)
+
+

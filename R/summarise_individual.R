@@ -3,7 +3,7 @@
 summarise_individual <- function(
   con = sidora.core::get_pandora_connection(), 
   entity_id = "FUT001", 
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 ) {
   
   # get data

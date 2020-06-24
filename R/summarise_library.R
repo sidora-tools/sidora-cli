@@ -3,7 +3,7 @@
 summarise_library <- function(
   con = sidora.core::get_pandora_connection(), 
   entity_id = "FUT001.A0101", 
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 ) {
   
   # get data

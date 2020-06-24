@@ -10,7 +10,7 @@
 glance_module <- function(
   con = sidora.core::get_pandora_connection(), 
   entity_type,
-  cache_dir = "/tmp/sidora.cli_table_cache"
+  cache_dir = "~/.sidora"
 ) {
   
   entity_type_table <- sidora.core::entity2table(entity_type)
