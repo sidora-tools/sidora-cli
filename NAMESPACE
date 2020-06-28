@@ -2,7 +2,6 @@
 
 export(ascii_world_map)
 export(check_input_module)
-export(convert_option_to_pandora_table)
 export(fuzzy_search)
 export(glance_module)
 export(list_module)
