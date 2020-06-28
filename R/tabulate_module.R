@@ -18,7 +18,7 @@ tabulate_module <- function(
   cache_dir = "~/.sidora"
 ) {
 
-  entity_type_table <- sidora.core::entity2table(entity_type)
+  entity_type_table <- sidora.core::entity_type_to_table_name(entity_type)
   
   if ( !is.na(entity_id[1]) && !is.na(filter_entity_type)) {
   
@@ -40,13 +40,13 @@ tabulate_module <- function(
       con = con, cache_dir = cache_dir
     ) %>%
       dplyr::filter(
-        !!rlang::sym(sidora.core::get_namecol_from_entity(entity_type)) %in% entity_id
+        !!rlang::sym(sidora.core::namecol_for_entity_type(entity_type)) %in% entity_id
       )
     
   } else if ( !is.na(filter_entity_type) && !is.na(filter_string) ) {
     # filter: applies filter operation on filter table and returns requested table
     
-    filter_entity_type_table <- sidora.core::entity2table(filter_entity_type)
+    filter_entity_type_table <- sidora.core::entity_type_to_table_name(filter_entity_type)
     
     # get the relevant tables and the tables in between
     table_list <- sidora.core::get_df_list(
@@ -67,7 +67,7 @@ tabulate_module <- function(
   
     result_table <- joined_table %>%
       # filter merged table to only include values in filtered filter entity
-      dplyr::filter(!is.na(!!rlang::sym( sidora.core::get_namecol_from_entity(filter_entity_type) ))) %>%
+      dplyr::filter(!is.na(!!rlang::sym( sidora.core::namecol_for_entity_type(filter_entity_type) ))) %>%
       # reduce result variable selection to requested entity_type
       dplyr::select(colnames(table_list[[entity_type_table]]))
   
@@ -76,7 +76,7 @@ tabulate_module <- function(
   if (as_tsv) {
     result_table %>% readr::format_tsv() %>% cat()
   } else if (as_id_list) {
-    result_table %>% dplyr::pull(sidora.core::get_namecol_from_entity(entity_type)) %>% cat(sep = "\n")
+    result_table %>% dplyr::pull(sidora.core::namecol_for_entity_type(entity_type)) %>% cat(sep = "\n")
   } else {
     result_table %>% print()
   }

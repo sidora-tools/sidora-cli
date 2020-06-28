@@ -27,7 +27,7 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
     sidora.cli::fuzzy_search(entity_id, search_vec)
   } else {
     ## Find columns to get human-readable strings for get_name_from_id
-    cols2update <- names(table_filtered[sidora.core::is_sidoracol_auxid(entity_type = entity_type, col_name = names(table_filtered))])
+    cols2update <- names(table_filtered[sidora.core::col_name_has_aux(entity_type = entity_type, col_name = names(table_filtered))])
     
     ## Format for printing, not tidy output, so suppressed warnings from gather
     suppressWarnings(
