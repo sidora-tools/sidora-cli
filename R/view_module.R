@@ -27,7 +27,7 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
   } else {
     ## Find columns to get human-readable strings for get_name_from_id
     cols2update <- names(
-      filtered_table[, sidora.core::col_name_has_aux(entity_type = entity_type, col_name = names(filtered_table))]
+      filtered_table[, sidora.core::sidora_col_name_has_aux(sidora_col_name = names(filtered_table))]
     )
     
     ## Format for printing, not tidy output, so suppressed warnings from gather
@@ -39,12 +39,11 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
           -paste0(entity_type, ".Deleted_Date")
         ) %>%
         dplyr::mutate(dplyr::across(
-          tidyselect::all_of(cols2update), 
+          tidyselect::all_of(cols2update),
           ~sidora.core::namecol_value_from_id(
-            con = con, 
-            query_tab = entity_type, 
-            query_col = dplyr::cur_column(), 
-            query_id = .x, 
+            sidora_col_name = dplyr::cur_column(),
+            query_id = .x,
+            con = con,
             cache_dir = cache_dir
           )
         )) %>%
