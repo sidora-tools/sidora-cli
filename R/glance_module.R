@@ -13,7 +13,7 @@ glance_module <- function(
   cache_dir = "~/.sidora"
 ) {
   
-  entity_type_table <- sidora.core::entity2table(entity_type)
+  entity_type_table <- sidora.core::entity_type_to_table_name(entity_type)
   
   result_table <- sidora.core::get_df(
     entity_type_table,
