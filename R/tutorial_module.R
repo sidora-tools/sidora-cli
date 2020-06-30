@@ -59,11 +59,18 @@ tutorial_module <- function(con, cache_dir) {
   sidora.cli::tabulate_module(entity_type = "site", entity_id = c("FUT", "CMC", "FUP"), as_tsv = T, con = con, cache_dir = cache_dir) 
   cat("\n")
   
-  cat("The", crayon::yellow("[tabulate]"), "module can also be used to query meaningful subsets of Pandora tables. You do this by selecting a filter table with -f and defining a filter string with -s. Here we get every individual north of the Polar circle:\n")
+  cat(crayon::yellow("[tabulate]"), " can also be used to query meaningful subsets of Pandora tables. You do this by selecting a filter table with -f and defining a filter string with -s. Here we get every individual north of the Polar circle:\n")
   cat(crayon::bold("$ sidora tabulate -t individual -f site -s \"site.Latitude > 66.56\"\n"))
   cat("\n")
   schtop()
   sidora.cli::tabulate_module(entity_type = "individual", filter_entity_type = "site", filter_string = "site.Latitude > 66.56", con = con, cache_dir = cache_dir) 
+  cat("\n")
+  
+  cat("More complex queries are possible as well: All samples north of the Polar circle and in Russia\n")
+  cat(crayon::bold("$ sidora tabulate -t sample -f site -s \"site.Latitude > 66.56 & grepl('Russia', site.Country)\"\n"))
+  cat("\n")
+  schtop()
+  sidora.cli::tabulate_module(entity_type = "sample", filter_entity_type = "site", filter_string = "site.Latitude > 66.56 & grepl('Russia', site.Country)", con = con, cache_dir = cache_dir) 
   cat("\n")
   
   quit(save = "no")
