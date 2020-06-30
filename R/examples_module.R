@@ -9,7 +9,7 @@ examples_module <- function(quit_after = T) {
   
   cat("╔═════════════════════════════════════════════════════╗\n")
   cat("║ sidora -h | examples | tutorial                     ║\n") 
-  cat("╠═════════════════════════════════════════════════════╣\n")
+  cat("╠════════════════════════════════╦════════════════════╣\n")
   cat("║ sidora view      -t site       ║ -i FUT             ║\n") 
   cat("║        summarise    individual ║    FUT001          ║\n") 
   cat("║        list         sample     ║    FUT001.A        ║\n") 

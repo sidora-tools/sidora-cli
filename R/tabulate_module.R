@@ -13,7 +13,7 @@ tabulate_module <- function(
   entity_id = c(),
   filter_entity_type = NA,
   filter_string = NA,
-  as_tsv = T,
+  as_tsv = F,
   as_id_list = F, # list module argument
   cache_dir = "~/.sidora"
 ) {

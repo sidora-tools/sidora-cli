@@ -45,6 +45,20 @@ tutorial_module <- function(con, cache_dir) {
   sidora.cli::summarise_site(entity_id = "FUT", con = con, cache_dir = cache_dir) 
   cat("\n")
   
+  cat("The", crayon::yellow("[tabulate]"), "module: Show a table with multiple entities\n")
+  cat(crayon::bold("$ sidora tabulate -t site -i FUT,CMC,FUP\n"))
+  cat("\n")
+  schtop()
+  sidora.cli::tabulate_module(entity_type = "site", entity_id = c("FUT", "CMC", "FUP"), con = con, cache_dir = cache_dir) 
+  cat("\n")
+  
+  cat("The", crayon::yellow("[tabulate]"), "module has tsv outout for easy command line processing\n")
+  cat(crayon::bold("$ sidora tabulate -t site -i FUT,CMC,FUP --as_tsv\n"))
+  cat("\n")
+  schtop()
+  sidora.cli::tabulate_module(entity_type = "site", entity_id = c("FUT", "CMC", "FUP"), as_tsv = T, con = con, cache_dir = cache_dir) 
+  cat("\n")
+  
   quit(save = "no")
   
 }
