@@ -1,9 +1,11 @@
 #' examples_module
 #'
 #' This module gives you a quick overview of the sidora.cli interface 
-#'
+#' 
+#' @param quit_after test
+#' 
 #' @export
-examples_module <- function() {
+examples_module <- function(quit_after = T) {
   
   cat("╔═════════════════════════════════════════════════════╗\n")
   cat("║ sidora -h | examples | tutorial                     ║\n") 
@@ -25,6 +27,7 @@ examples_module <- function() {
   cat("╚═════════════════════════════════════════════════════╝\n")
   cat("see .sidora.R -h for a more comprehensive manual\n")
   cat(".sidora.R glance is useful to quickly see the columns in a table\n")
-  quit(save = "no")
+  
+  if (quit_after) { quit(save = "no") }
   
 }

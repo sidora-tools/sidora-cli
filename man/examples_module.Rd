@@ -4,7 +4,10 @@
 \alias{examples_module}
 \title{examples_module}
 \usage{
-examples_module()
+examples_module(quit_after = T)
+}
+\arguments{
+\item{quit_after}{test}
 }
 \description{
 This module gives you a quick overview of the sidora.cli interface
