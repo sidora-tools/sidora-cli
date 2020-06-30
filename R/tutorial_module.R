@@ -11,21 +11,31 @@ tutorial_module <- function(con, cache_dir) {
   cat("Welcome to the wonderful world of sidora, the shiny command line interface to Pandora.\n")
   cat("\n")
   schtop()
+  
   cat("You can open the sidora manual to learn everything about the different modules sidora provides with:\n")
   cat(crayon::bold("$ sidora -h.\n"))
   cat("\n")
   schtop()
-  cat("The [examples] module: A quick reminder about the most important functions\n")
+  
+  cat("The", crayon::yellow("[examples]"), "module: A quick reminder about the most important functions\n")
   cat(crayon::bold("$ sidora examples\n"))
   cat("\n")
   schtop()
   sidora.cli::examples_module(quit_after = FALSE)
   cat("\n")
-  cat("The [glance] module: Which columns does a certain pandora table have?\n")
+  
+  cat("The", crayon::yellow("[glance]"), "module: Which columns does a certain pandora table have?\n")
   cat(crayon::bold("$ sidora glance -t site\n"))
   cat("\n")
   schtop()
   sidora.cli::glance_module(entity_type = "site", con = con, cache_dir) 
+  cat("\n")
+  
+  cat("The", crayon::yellow("[view]"), "module: Show one particular entity\n")
+  cat(crayon::bold("$ sidora view -t individual -i FUT001\n"))
+  cat("\n")
+  schtop()
+  sidora.cli::view_module(entity_type = "individual", entity_id = "FUT001", con = con, cache_dir) 
   cat("\n")
   
   quit(save = "no")
