@@ -2,6 +2,7 @@
 
 export(ascii_world_map)
 export(check_input_module)
+export(examples_module)
 export(fuzzy_search)
 export(glance_module)
 export(list_module)
