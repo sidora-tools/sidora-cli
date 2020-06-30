@@ -10,7 +10,7 @@
 tabulate_module <- function(
   con = sidora.core::get_pandora_connection(), 
   entity_type,
-  entity_id = c(),
+  entity_id = NA,
   filter_entity_type = NA,
   filter_string = NA,
   as_tsv = F,
