@@ -36,7 +36,7 @@ glance_module <- function(
       # remove weird linebreaks
       Examples = gsub("\n", "/", .data[["Examples"]]),
       # cut string length
-      Examples = ifelse(nchar(Examples) > 43, paste0(strtrim(Examples, 40), '...'), Examples)
+      Examples = ifelse(nchar(.data[["Examples"]]) > 43, paste0(strtrim(.data[["Examples"]], 40), '...'), .data[["Examples"]])
     ) %>%
     knitr::kable(col.names = c("Fields", "3 example values")) %>%
     print()
