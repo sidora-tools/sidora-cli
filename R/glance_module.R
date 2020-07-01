@@ -38,7 +38,7 @@ glance_module <- function(
       # cut string length
       Examples = ifelse(nchar(Examples) > 43, paste0(strtrim(Examples, 40), '...'), Examples)
     ) %>%
-    knitr::kable(col.names = c("Fields", "3 example values"))
-  
+    knitr::kable(col.names = c("Fields", "3 example values")) %>%
+    print()
   
 }
