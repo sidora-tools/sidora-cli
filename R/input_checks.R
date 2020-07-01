@@ -4,7 +4,7 @@
 #'
 #' @export
 check_input_module <- function(x) {
-  modules <- c("view", "summarise", "list", "tabulate", "glance", "examples")
+  modules <- c("view", "summarise", "list", "tabulate", "glance", "examples", "tutorial")
   if (!(x %in% modules)) {
     stop(
       "The first argument names the module you want to use and must be one of: ", 

@@ -80,30 +80,10 @@ argv <- argparser::parse_args(p)
 sidora.cli::check_input_module(argv$module)
 # TODO: add more!
 
-#### do stuff according to the input arguments ####
+#### connect to PANDORA ####
+con <- sidora.core::get_pandora_connection(argv$credentials)
 
-# special module: examples
-if (argv$module == "examples") {
-  cat("╔════════════════════════════════╦════════════════════╗\n")
-  cat("║ sidora view      -t site       ║ -i FUT             ║\n") 
-  cat("║        summarise    individual ║    FUT001          ║\n") 
-  cat("║        list         sample     ║    FUT001.A        ║\n") 
-  cat("║        tabulate     extract    ║    FUT001.A01      ║\n") 
-  cat("║        glance       library    ║    FUT001.A0101    ║\n") 
-  cat("║        ...          ...        ║    FUT,CMC,...     ║\n")         
-  cat("║                                ║    ...             ║\n")          
-  cat("╠════════════════════════════════╩════════════════════╣\n")
-  cat("║ -f site -s \"site.Latitude > 46\"                     ║\n")
-  cat("║ -f sample -s \"grepl(\'Deep_Evolution\', sample.Tags)\" ║\n")
-  cat("╠═════════════════════════════════════════════════════╣\n")
-  cat("║ --as_tsv                                            ║\n")  
-  cat("║ --credentials                                       ║\n")  
-  cat("║ --cache_dir --empty_cache                           ║\n")  
-  cat("╚═════════════════════════════════════════════════════╝\n")
-  cat("see .sidora.R -h for a more comprehensive manual\n")
-  cat(".sidora.R glance is useful to quickly see the columns in a table\n")
-  quit(save = "no")
-} 
+#### do stuff according to the input arguments ####
 
 # special case: empty cache
 if (argv$empty_cache) {
@@ -118,6 +98,16 @@ if (argv$empty_cache) {
   }
 }
 
+# special module: examples
+if (argv$module == "examples") {
+  sidora.cli::examples_module()
+} 
+
+# special module: tutorial
+if (argv$module == "tutorial") {
+  sidora.cli::tutorial_module(con, argv$cache_dir)
+}
+
 # transform more cli args to individual variables
 module <- argv$module
 
@@ -129,11 +119,7 @@ filter_string <- argv$filter_string
 
 as_tsv <- argv$as_tsv
 
-cred_file <- argv$credentials
 cache_dir <- argv$cache_dir
-
-# connect to PANDORA
-con <- sidora.core::get_pandora_connection(cred_file)
 
 # module list
 if (module == "list") {

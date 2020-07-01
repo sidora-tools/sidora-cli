@@ -1,6 +1,6 @@
 #' glance_module
 #'
-#' This module gives you you an overview about the variables (columns) in a Pandora table.
+#' This module gives you an overview about the variables (columns) in a Pandora table.
 #'
 #' @param con test
 #' @param entity_type test
