@@ -18,11 +18,17 @@ tabulate_module(
 \arguments{
 \item{con}{test}
 
-\item{entity_type}{test}
+\item{entity_type}{a pandora table to the generate a list of IDs from. Options: site,}
+
+\item{entity_id}{test}
+
+\item{filter_entity_type}{test}
 
 \item{filter_string}{test}
 
 \item{as_tsv}{test}
+
+\item{as_id_list}{test}
 
 \item{cache_dir}{test}
 }

@@ -17,7 +17,7 @@ summarise_library <- function(
     # get additional data and merge
     sel_merged <- sidora.core::join_pandora_tables(x = list(
       "TAB_Extract" = sidora.core::get_df(tab = "TAB_Extract", con = con, cache_dir = cache_dir) %>% 
-        dplyr::filter(extract.Id == sel_basic$library.Extract),
+        dplyr::filter(.data[["extract.Id"]] == sel_basic$library.Extract),
       "TAB_Library" = sel_basic,
       "TAB_Capture" = sidora.core::get_df(con, tab = "TAB_Capture", cache_dir = cache_dir),
       "TAB_Sequencing" = sidora.core::get_df(con, tab = "TAB_Sequencing", cache_dir = cache_dir)

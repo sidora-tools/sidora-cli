@@ -50,13 +50,13 @@ summarise_site <- function(
     
     # Dating
     if (!all(is.na(sel_merged$individual.C14_Calibrated_From))) {
-      starts <- sel_merged$individual.C14_Calibrated_From %>% na.omit() %>% as.vector()
-      stops <- sel_merged$individual.C14_Calibrated_To %>% na.omit() %>% as.vector()
+      starts <- sel_merged$individual.C14_Calibrated_From %>% stats::na.omit() %>% as.vector()
+      stops <- sel_merged$individual.C14_Calibrated_To %>% stats::na.omit() %>% as.vector()
       touched_millenia <- c(starts, stops) %>% `/`(., 1000) %>% floor() %>% table() %>% 
         tibble::as_tibble() %>%
         `colnames<-`(c("mill", "n")) %>%
         dplyr::mutate(
-          n_prop = paste0(round(n/sum(n) * 100, 0), "%"),
+          n_prop = paste0(round(.data[["n"]]/sum(.data[["n"]]) * 100, 0), "%"),
           mill_text = dplyr::case_when(
             mill < 0 ~ paste(-as.numeric(mill), "mill. BC"),
             mill >= 0 ~ paste(as.numeric(mill) + 1, "mill. AD")

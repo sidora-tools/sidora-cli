@@ -4,11 +4,14 @@
 #' 
 #' @param con a pandora connection from sidora.core
 #' @param entity_type a pandora table to the generate a list of IDs from. Options: site,
+#' @param entity_id test
+#' @param filter_entity_type test
+#' @param filter_string test
 #' @param cache_dir location of your cache directory.
 #' 
 #' @export
 list_module <- function(
-  con = sidora.core::get_pandora_connection(), 
+  con = sidora.core::get_pandora_connection(),
   entity_type,
   entity_id = c(),
   filter_entity_type = NA,

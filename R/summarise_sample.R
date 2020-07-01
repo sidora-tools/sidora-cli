@@ -17,7 +17,7 @@ summarise_sample <- function(
     # get additional data and merge
     sel_merged <- sidora.core::join_pandora_tables(x = list(
       "TAB_Individual" = sidora.core::get_df(tab = "TAB_Individual", con = con, cache_dir = cache_dir) %>% 
-        dplyr::filter(individual.Id == sel_basic$sample.Individual),
+        dplyr::filter(.data[["individual.Id"]] == sel_basic$sample.Individual),
       "TAB_Sample" = sel_basic,
       "TAB_Extract" = sidora.core::get_df(con, tab = "TAB_Extract", cache_dir = cache_dir)
     ))

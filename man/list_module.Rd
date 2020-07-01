@@ -18,6 +18,12 @@ list_module(
 
 \item{entity_type}{a pandora table to the generate a list of IDs from. Options: site,}
 
+\item{entity_id}{test}
+
+\item{filter_entity_type}{test}
+
+\item{filter_string}{test}
+
 \item{cache_dir}{location of your cache directory.}
 }
 \description{

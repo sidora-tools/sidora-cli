@@ -1,9 +1,12 @@
 #' tabulate_module
 #'
 #' @param con test
-#' @param entity_type test
+#' @param entity_type a pandora table to the generate a list of IDs from. Options: site,
+#' @param entity_id test
+#' @param filter_entity_type test
 #' @param filter_string test
 #' @param as_tsv test
+#' @param as_id_list test
 #' @param cache_dir test
 #'
 #' @export
