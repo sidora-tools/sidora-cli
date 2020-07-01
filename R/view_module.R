@@ -9,14 +9,11 @@
 #'
 #' @export
 view_module <- function(con, entity_type, entity_id, cache_dir) {
-
   ## Get corresponding table from our 'clean' sidora.cliinput options
   tab_info <- sidora.cli::convert_option_to_pandora_table(entity_type)
-  
   selected_table <- sidora.core::get_df(con, 
                                         tab = tab_info$pandora_table, 
                                         cache_dir = cache_dir)
-
   table_filtered <- selected_table %>% 
     dplyr::filter(eval(as.symbol(tab_info$id_column)) == entity_id, 
                   !eval(as.symbol(paste0(entity_type, ".Deleted"))))
@@ -28,7 +25,6 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
   } else {
     ## Find columns to get human-readable strings for get_name_from_id
     cols2update <- names(table_filtered[sidora.core::is_sidoracol_auxid(entity_type = entity_type, col_name = names(table_filtered))])
-    
     ## Format for printing, not tidy output, so suppressed warnings from gather
     suppressWarnings(
       table_filtered %>%
@@ -41,6 +37,7 @@ view_module <- function(con, entity_type, entity_id, cache_dir) {
                                                       query_col = dplyr::cur_column(), 
                                                       query_id = .x, 
                                                       cache_dir = cache_dir))) %>%
+        dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
         tidyr::gather("Field", "Value", 1:ncol(.)) %>% 
         dplyr::mutate(Field = gsub(paste0(entity_type, "\\."), "", .data$Field)) %>%
         knitr::kable() %>% 
