@@ -3,3 +3,4 @@
 ^playground$
 ^inst/\.credentials$
 ^data-raw$
+^\.credentials$
