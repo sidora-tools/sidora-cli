@@ -1,3 +1,3 @@
 #!/bin/bash
 
-singularity exec sidora.cli.sif /sidora.R "$@" --credentials /.credentials
+singularity exec /projects1/clusterhomes/schmid/sidora/sidora.cli.sif /sidora.R "$@" --credentials /.credentials
