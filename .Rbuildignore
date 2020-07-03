@@ -4,3 +4,4 @@
 ^inst/\.credentials$
 ^data-raw$
 ^\.credentials$
+^singularity$

@@ -4,3 +4,4 @@
 .Ruserdata
 .credentials
 playground/
+singularity/*.sif

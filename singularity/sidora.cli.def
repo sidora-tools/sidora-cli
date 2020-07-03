@@ -1,0 +1,10 @@
+Bootstrap: docker
+From: rocker/tidyverse:4.0.1
+
+%files
+  .credentials .credentials
+
+%post
+  R --slave -e 'remotes::install_github("sidora-tools/sidora.cli", dependencies = TRUE)'
+  R --slave -e 'sidora.cli::quick_install(".")'
+
