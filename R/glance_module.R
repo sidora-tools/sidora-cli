@@ -20,7 +20,7 @@ glance_module <- function(
   ) %>%
     # count number of "empty" columns per row
     dplyr::mutate(
-      number_of_na = rowSums(is.na(.) | . == "")
+      number_of_na = rowSums(is.na(.))
     ) %>%
     # arrange by that count
     dplyr::arrange(.data[["number_of_na"]]) %>%
