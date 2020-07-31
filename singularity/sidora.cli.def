@@ -1,10 +1,12 @@
 Bootstrap: docker
-From: rocker/tidyverse:3.6.3
+From: r-base:3.6.3
 
 %files
   .credentials
 
 %post
+  apt-get update && apt-get install -y libmariadbclient-dev
+  R --slave -e 'install.packages(c("remotes", "DBI", "RMariaDB"))'
   R --slave -e 'remotes::install_github("sidora-tools/sidora.cli", dependencies = TRUE)'
   R --slave -e 'sidora.cli::quick_install(".")'
 
